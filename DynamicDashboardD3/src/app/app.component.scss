@@ -22,30 +22,3 @@
     display: flex;
     padding: 0 40px;
 }
-
-.user-button{    
-    background-image: -webkit-linear-gradient(top, #65CEFC, #478FB1);
-    background-image: -moz-linear-gradient(top, #65CEFC, #478FB1);
-    background-image: linear-gradient(to bottom, #65CEFC, #478FB1);    
-    box-shadow: -1px 1px 1px #295066;
-    align-items:center; 
-    height:54px;
-    padding: 0 40px;
-    display:flex;    
-}
-
-.user-button:hover{
-    background-image: -webkit-linear-gradient(top, #478FB1, #295066);
-    background-image: -moz-linear-gradient(top, #478FB1, #295066);
-    background-image: linear-gradient(to bottom, #478FB1, #295066);
-    cursor: pointer;
-}
-
-.user-name{
-    margin: 0 10px;
-}
-
-.user-image{
-    border-radius:36px;
-    border: solid 2px #1F4151;
-}

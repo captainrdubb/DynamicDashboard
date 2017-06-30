@@ -8,6 +8,7 @@ import { Component, AfterViewInit } from '@angular/core';
 export class AppComponent implements AfterViewInit {
   
   title = 'Dynamic Dashboard';
+  logo = '../assets/logo.png';
 
   constructor(){}
 

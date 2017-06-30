@@ -88,7 +88,7 @@ module.exports = {
   "output": {
     "path": path.join(process.cwd(), "dist"),
     "filename": "[name].bundle.js",
-    "chunkFilename": "[id].chunk.js"
+    "chunkFilename": "[id].chunk.js"    
   },
   "module": {
     "rules": [
@@ -356,7 +356,7 @@ module.exports = {
         "favicon.ico"
       ],
       "globOptions": {
-        "cwd": "C:\\Dev\\DynamicDashboardD3\\DynamicDashboard_D3\\src",
+        "cwd": "C:\\Dev\\DynamicDashboardD3\\DynamicDashboardD3\\src",
         "dot": true,
         "ignore": "**/.gitkeep"
       }
