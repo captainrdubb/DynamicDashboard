@@ -1,7 +1,9 @@
 import { TestBed, async } from '@angular/core/testing';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { AboutModule } from './about/about.module';
 
 import { AppComponent } from './app.component';
-import { AboutModule } from './about/about.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -9,7 +11,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      imports:[AboutModule]
+      imports:[AboutModule, NgbModalModule.forRoot()]
     }).compileComponents();
   }));
 
@@ -24,11 +26,4 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('Dynamic Dashboard');
   }));
-
-  // it('should render title in a h1 tag', async(() => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.debugElement.nativeElement;
-  //   expect(compiled.querySelector('h1').textContent).toContain('Welcome to dd!!');
-  // }));
 });
