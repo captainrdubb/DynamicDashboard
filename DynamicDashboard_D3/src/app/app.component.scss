@@ -1,0 +1,51 @@
+.app-header{
+    background-color:#135C7C; 
+    height:55px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.app-body{
+    background-color:#F2FAFC;
+    height:78%;
+}
+
+.app-footer{
+    background-color:#152834; 
+    height:120px; 
+    padding:15px;
+}
+
+.app-logo{
+    height: 55px;
+    align-items: center;
+    display: flex;
+    padding: 0 40px;
+}
+
+.user-button{    
+    background-image: -webkit-linear-gradient(top, #65CEFC, #478FB1);
+    background-image: -moz-linear-gradient(top, #65CEFC, #478FB1);
+    background-image: linear-gradient(to bottom, #65CEFC, #478FB1);    
+    box-shadow: -1px 1px 1px #295066;
+    align-items:center; 
+    height:54px;
+    padding: 0 40px;
+    display:flex;    
+}
+
+.user-button:hover{
+    background-image: -webkit-linear-gradient(top, #478FB1, #295066);
+    background-image: -moz-linear-gradient(top, #478FB1, #295066);
+    background-image: linear-gradient(to bottom, #478FB1, #295066);
+    cursor: pointer;
+}
+
+.user-name{
+    margin: 0 10px;
+}
+
+.user-image{
+    border-radius:36px;
+    border: solid 2px #1F4151;
+}
