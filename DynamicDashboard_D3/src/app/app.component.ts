@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, Renderer } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'dd-root',
@@ -9,10 +9,7 @@ export class AppComponent implements AfterViewInit {
   
   title = 'Dynamic Dashboard';
 
-  constructor(private element:ElementRef, private renderer: Renderer){}
+  constructor(){}
 
-  ngAfterViewInit(): void {
-    let exampleInput = this.element.nativeElement.querySelector('#example-input');
-    this.renderer.invokeElementMethod(exampleInput, 'focus');
-  }
+  ngAfterViewInit(): void {}
 }
