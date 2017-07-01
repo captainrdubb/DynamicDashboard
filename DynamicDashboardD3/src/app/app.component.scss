@@ -1,57 +1,67 @@
+@import '../variables.scss';
+
 .app-header{
-    height: 100px;
+    display: block;
+    height: 100px; 
+    border-bottom: 1px solid rgba(0,0,0,.2);   
     background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
     background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
     background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
     background-image: linear-gradient(#00ECE7,#D0FCF7);
-    display:relative;
 
-    .header-logo{   
-        position: absolute;
-        display: inline-flex;
-        align-items: center;
-        top:20px;
-        left:30px;   
-        label{
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            font-size: 30px;                        
-            letter-spacing: 1.25px;
-            padding-left: 10px;
-        }  
-        img{
-            border-radius: 100px;
-            border: 2px solid #4C4C4C;
-        }
-    }
-
-    .header-menu{
-        position: absolute;
-        display: inline;
-        top:30px;
-        right:20px;
-        color: #4C4C4C;
-        font-weight: bold;
-
-        ul{     
-            margin:0;               
-            list-style-type: none;           
-            
-            li {
-                float:left;
-                padding: 0 20px; 
-                height: 40px;
-                transition: font-size .4s ease-out;
-                
-                &:hover{
-                    cursor: pointer;
-                    font-size: 19px;
-                    transition: font-size .4s ease-in;
-                }
-
-                &.selected{
-                    border-bottom: 3px solid #FFFFFF;
-                }   
+    .header-container{        
+        position: relative;
+        max-width: 1280px;
+        height: auto;
+        margin: 0 auto;
+        .header-logo{   
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            top:20px;
+            left:30px;   
+            label{
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+                font-size: 30px;                        
+                letter-spacing: 1.25px;
+                padding-left: 10px;
+                text-shadow: 1px 1px $blueish-white;
+            }  
+            img{
+                border-radius: 100px;
+                border: 2px solid #4C4C4C;
             }
         }
-    }    
+
+        .header-menu{
+            position: absolute;
+            display: inline;
+            top:50px;
+            right:20px;
+            color: #4C4C4C;
+            font-weight: bold;
+
+            ul{     
+                margin:0;               
+                list-style-type: none;           
+                
+                li {
+                    float:left;
+                    padding: 0 20px; 
+                    height: 40px;
+                    transition: font-size .3s ease-out;
+                    
+                    &:hover{
+                        cursor: pointer;
+                        font-size: 19px;
+                        transition: font-size .3s ease-in;
+                    }
+
+                    &.selected{
+                        border-bottom: 3px solid $blueish-white;
+                    }   
+                }
+            }
+        } 
+    }       
 }
