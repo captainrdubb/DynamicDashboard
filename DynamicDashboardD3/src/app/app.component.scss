@@ -1,24 +1,34 @@
 .app-header{
-    background-color:#135C7C; 
-    height:55px;
-    display:flex;
-    justify-content: space-between;
-}
+    height: 100px;
+    background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
+    background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
+    background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
+    background-image: linear-gradient(#00ECE7,#D0FCF7);
 
-.app-body{
-    background-color:#F2FAFC;
-    height:78%;
-}
+    .header-menu{
+        color: #4C4C4C;
+        font-weight: bold;
+        padding-top:30px;
+        ul{     
+            margin:0;               
+            list-style-type: none;           
+            
+            li {
+                float:left;
+                padding: 0 20px; 
+                height: 40px;
+                transition: font-size .4s ease-out;
+                
+                &:hover{
+                    cursor: pointer;
+                    font-size: 19px;
+                    transition: font-size .4s ease-in;
+                }
 
-.app-footer{
-    background-color:#152834; 
-    height:120px; 
-    padding:15px;
-}
-
-.app-logo{
-    height: 55px;
-    align-items: center;
-    display: flex;
-    padding: 0 40px;
+                &.selected{
+                    border-bottom: 3px solid #FFFFFF;
+                }   
+            }
+        }
+    }    
 }

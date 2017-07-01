@@ -1,7 +1,7 @@
 <div class="app-header">
-  <div class="app-logo"><img [src]="logo" alt="site logo" /></div>
-  <dd-about></dd-about>
-</div>
-<div class="app-body" id="body"></div>
-<div id="footer" class="app-footer">
+    <div class="header-menu">
+        <ul>
+            <li *ngFor="let item of menuItems" [ngClass]="{'selected':isSelected(item.id)}" (click)="selectItem(item.id)"><a>{{item.name}}</a></li>
+        </ul>
+    </div>
 </div>
