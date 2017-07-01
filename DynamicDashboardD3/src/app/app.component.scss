@@ -4,11 +4,34 @@
     background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
     background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
     background-image: linear-gradient(#00ECE7,#D0FCF7);
+    display:relative;
+
+    .header-logo{   
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        top:20px;
+        left:30px;   
+        label{
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 30px;                        
+            letter-spacing: 1.25px;
+            padding-left: 10px;
+        }  
+        img{
+            border-radius: 100px;
+            border: 2px solid #4C4C4C;
+        }
+    }
 
     .header-menu{
+        position: absolute;
+        display: inline;
+        top:30px;
+        right:20px;
         color: #4C4C4C;
         font-weight: bold;
-        padding-top:30px;
+
         ul{     
             margin:0;               
             list-style-type: none;           
