@@ -9,9 +9,50 @@
     background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
     background-image: linear-gradient(#00ECE7,#D0FCF7);
 
+    ul{     
+        margin:0;               
+        list-style-type: none;           
+        
+        li {
+            float:left;
+            padding: 0 20px; 
+            height: 40px;
+            transition: font-size .3s ease-out;
+            
+            &:hover{
+                cursor: pointer;
+                font-size: 19px;
+                transition: font-size .3s ease-in;
+            }
+
+            &.selected{
+                border-bottom: 3px solid $blueish-white;
+            }   
+        }
+    }
+
+    .header-menu-sm{
+            top:0;
+            right:0;
+            width: 0;   
+            height: 500px;         
+            display: none;
+            position: absolute;
+            background-color: $blueish-white;  
+            box-shadow: 1px 1px 1px #000000;      
+            opacity: 0;            
+
+            &.visible{
+                width: 200px;
+                display: block;
+                opacity: 1;
+                transition: width opacity .3s linear;                
+            }
+    }  
+
     .header-container{        
         position: relative;
-        max-width: 1280px;
+        max-width: $max-width;
         height: auto;
         margin: 0 auto;
         .header-logo{   
@@ -33,35 +74,50 @@
             }
         }
 
-        .header-menu{
+        .header-menu-lg{
             position: absolute;
-            display: inline;
             top:50px;
             right:20px;
             color: #4C4C4C;
             font-weight: bold;
 
-            ul{     
-                margin:0;               
-                list-style-type: none;           
-                
-                li {
-                    float:left;
-                    padding: 0 20px; 
-                    height: 40px;
-                    transition: font-size .3s ease-out;
-                    
-                    &:hover{
-                        cursor: pointer;
-                        font-size: 19px;
-                        transition: font-size .3s ease-in;
-                    }
-
-                    &.selected{
-                        border-bottom: 3px solid $blueish-white;
-                    }   
-                }
+            @media(max-width: 864px){
+                display: none;
             }
-        } 
+
+            @media(min-width: 865px){
+                display: inline;
+            }
+        }              
+
+        .hamburger-menu{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;            
+            height: 30px;            
+            font-size: 25px;
+            align-items: center;
+            justify-content: center;
+            color: $blueish-white;
+            background: #2C2C2C;
+            border: 1px solid $blueish-white;
+            @media(max-width: 864px){
+                display: flex;
+            }
+
+            @media(min-width: 865px){
+                display: none;
+            }
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
     }       
+}
+
+.app-body{
+    margin: 0 auto;
+    max-width: $max-width;
 }

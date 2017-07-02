@@ -1,9 +1,9 @@
 import { TestBed, async } from '@angular/core/testing';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { AboutModule } from './about/about.module';
 
 import { AppComponent } from './app.component';
+import { WindowDataService } from './shared/window-data.service';
+
+const windowDataService = {};
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -11,7 +11,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      imports:[AboutModule, NgbModalModule.forRoot()]
+      imports: [],
+      providers: [WindowDataService]
     }).compileComponents();
   }));
 
@@ -26,4 +27,10 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('Dynamic Dashboard');
   }));
+
+  it(`should get a reference to appBody element`, async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.appBody).toBeTruthy();
+  }));  
 });

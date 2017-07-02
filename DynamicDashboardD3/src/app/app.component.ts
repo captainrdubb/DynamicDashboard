@@ -1,20 +1,24 @@
-import { Component, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/subscription';
 
+import { WindowDataService } from './shared/window-data.service';
 import { IMenuItem } from './shared/interfaces';
 
 @Component({
   selector: 'dd-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-  
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Dynamic Dashboard';
   logo = '../assets/logo.png';
   gravatarUrl = 'https://www.gravatar.com/avatar/36451f5c44ef99ae4d652b790763bfbd?s=100';
+  hamburgerMenuClicked = false;
+  appHeaderHeight = 100;
+  appBodyHeight:number;
+  windowHeightSubscription: Subscription;
 
-  selectedItemId = 1;  
+  selectedItemId = 1;
   menuItems = [
     { id: 1, name: 'Home' },
     { id: 2, name: 'Dashboard' },
@@ -22,15 +26,29 @@ export class AppComponent implements AfterViewInit {
     { id: 4, name: 'Messaging' },
   ];
 
-  constructor(){}
+  constructor(private windowDataService: WindowDataService, private changeDetectorRef: ChangeDetectorRef) { }
 
-  isSelected(id:number){
+  ngOnInit(): void {
+    this.appBodyHeight = this.windowDataService.getWindowHeight() - this.appHeaderHeight;
+    this.windowHeightSubscription = this.windowDataService.getWindowHeightUpdates().subscribe((height) => {
+      this.onWindowHeightUpdate(height);
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.windowHeightSubscription.unsubscribe();
+  }
+
+  isSelected(id: number) {
     return this.selectedItemId === id;
   }
 
-  selectItem(id: number){
+  selectItem(id: number) {
     this.selectedItemId = id;
+  }  
+
+  onWindowHeightUpdate(windowHeight: number) {
+    console.log(windowHeight);
+    this.appBodyHeight = windowHeight - this.appHeaderHeight;
   }
-  
-  ngAfterViewInit(): void {}
 }
