@@ -14,6 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   logo = '../assets/logo.png';
   gravatarUrl = 'https://www.gravatar.com/avatar/36451f5c44ef99ae4d652b790763bfbd?s=100';
   hamburgerMenuClicked = false;
+  windowHeight = 0;
   appHeaderHeight = 100;
   appBodyHeight:number;
   windowHeightSubscription: Subscription;
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private windowDataService: WindowDataService, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.appBodyHeight = this.windowDataService.getWindowHeight() - this.appHeaderHeight;
+    this.onWindowHeightUpdate(this.windowDataService.getWindowHeight());
     this.windowHeightSubscription = this.windowDataService.getWindowHeightUpdates().subscribe((height) => {
       this.onWindowHeightUpdate(height);
     })
@@ -47,8 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.selectedItemId = id;
   }  
 
-  onWindowHeightUpdate(windowHeight: number) {
-    console.log(windowHeight);
+  onWindowHeightUpdate(windowHeight: number) {    
+    this.windowHeight = windowHeight;
     this.appBodyHeight = windowHeight - this.appHeaderHeight;
   }
 }
