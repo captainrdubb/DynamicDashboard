@@ -7,46 +7,63 @@
     background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
     background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
     background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
-    background-image: linear-gradient(#00ECE7,#D0FCF7);
-
-    ul{     
-        margin:0;               
-        list-style-type: none;           
-        
-        li {
-            float:left;
-            padding: 0 20px; 
-            height: 40px;
-            transition: font-size .3s ease-out;
-            
-            &:hover{
-                cursor: pointer;
-                font-size: 19px;
-                transition: font-size .3s ease-in;
-            }
-
-            &.selected{
-                border-bottom: 3px solid $blueish-white;
-            }   
-        }
-    }
+    background-image: linear-gradient(#00ECE7,#D0FCF7);    
 
     .header-menu-sm{
         top:0;
         right:0;                                
+        width: 0;           
         position: absolute;
         background-color: $blueish-white;     
         box-shadow: -1px 0 25px rgba(0,0,0,.4);       
         overflow-x: hidden;
+        color: #4C4C4C;
+        font-weight: bold;
 
-        width: 0;   
         -webkit-transition: width .3s linear;
         -moz-transition: width .3s linear;
         -o-transition: width .3s linear;
         transition: width .3s linear;
 
         &.visible{
-            width: 200px;                
+            width: 250px;                
+        }
+
+        .close-tab{
+            border-bottom: 1px solid rgba(0,0,0,.4);
+            font-size: 25px;
+
+            .close-button{
+                display: inline;
+                padding: 6px 4px;
+
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+
+        ul{ 
+            margin-top:20px;               
+            list-style-type: none;  
+            padding: 0;         
+            
+            li {
+                display: block;
+                padding: 0 20px;                 
+                height: 40px;
+                transition: font-size .3s ease-out;
+                
+                &:hover{
+                    cursor: pointer;
+                    font-size: 19px;
+                    transition: font-size .3s ease-in;
+                }
+
+                &.selected{
+                    border-bottom: 3px solid $blueish-white;
+                }   
+            }
         }
     }  
 
@@ -87,6 +104,28 @@
 
             @media(min-width: $lg-width-floor){
                 display: inline;
+            }
+
+            ul{     
+                margin:0;               
+                list-style-type: none;           
+                
+                li {
+                    float:left;
+                    padding: 0 20px; 
+                    height: 40px;
+                    transition: font-size .3s ease-out;
+                    
+                    &:hover{
+                        cursor: pointer;
+                        font-size: 19px;
+                        transition: font-size .3s ease-in;
+                    }
+
+                    &.selected{
+                        border-bottom: 3px solid $blueish-white;
+                    }   
+                }
             }
         }              
 
