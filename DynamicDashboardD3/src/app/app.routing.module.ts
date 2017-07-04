@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadingStrategy, PreloadAllModules } from '@angular/router';
 
+import { AppComponent } from './app.component';
+
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', loadChildren: 'app/home/home.module#HomeModule' },
@@ -15,5 +17,6 @@ const appRoutes: Routes = [
     exports: [RouterModule]
 })
 export class AppRoutingModule {
-    constructor() { }
+    static components = [ AppComponent ];    
+    constructor() {}
 }

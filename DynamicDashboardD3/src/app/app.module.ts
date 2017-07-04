@@ -14,6 +14,6 @@ import { AppRoutingModule } from './app.routing.module';
     AppRoutingModule
   ],  
   providers: [WindowDataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppRoutingModule.components]
 })
 export class AppModule { }

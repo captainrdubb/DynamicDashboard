@@ -12,4 +12,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  widgets = [
+    { id: 1 },    
+    { id: 2 },
+  ];
+
 }
