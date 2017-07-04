@@ -32,7 +32,10 @@
         .close-tab{
             border-bottom: 1px solid rgba(0,0,0,.4);
             font-size: 25px;
-
+            background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
+            background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
+            background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
+            background-image: linear-gradient(#00ECE7,#D0FCF7);    
             .close-button{
                 display: inline;
                 padding: 6px 4px;
@@ -50,19 +53,30 @@
             
             li {
                 display: block;
-                padding: 0 20px;                 
+                padding: 0 0 40px 30px;
                 height: 40px;
                 transition: font-size .3s ease-out;
                 
+                &:active{
+                    cursor: pointer;
+                    font-size: 19px;
+                    transition: font-size .3s ease-in;
+                }                
+
+                &.selected{
+                    border-bottom: 3px solid $blueish-white;
+                }   
+
                 &:hover{
                     cursor: pointer;
                     font-size: 19px;
                     transition: font-size .3s ease-in;
                 }
 
-                &.selected{
-                    border-bottom: 3px solid $blueish-white;
-                }   
+                a{
+                    text-decoration: none;
+                    color:inherit;
+                }
             }
         }
     }  
@@ -71,7 +85,7 @@
         position: relative;
         max-width: $max-width;
         height: auto;
-        margin: 0 auto;
+        margin: 0 auto;        
         .header-logo{   
             position: absolute;
             display: inline-flex;
@@ -124,7 +138,12 @@
 
                     &.selected{
                         border-bottom: 3px solid $blueish-white;
-                    }   
+                    } 
+
+                    a{
+                        text-decoration: none;
+                        color:inherit;                
+                    }  
                 }
             }
         }              
@@ -159,4 +178,5 @@
 .app-body{
     margin: 0 auto;
     max-width: $max-width;
+    padding: 50px 30px;
 }

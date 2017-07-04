@@ -6,7 +6,7 @@
         </div>
         <div class="header-menu-lg">
             <ul>
-                <li *ngFor="let item of menuItems" [ngClass]="{'selected':isSelected(item.id)}" (click)="selectItem(item.id)"><a>{{item.name}}</a></li>
+                <li *ngFor="let item of menuItems" [ngClass]="{'selected':isSelected(item.id)}" ><a (click)="selectMenuItem(item.id)" routerLink="{{item.path}}">{{item.name}}</a></li>
             </ul>
         </div>
         <div class="hamburger-menu" (click)="hamburgerMenuClicked = !hamburgerMenuClicked"><span class="fa fa-bars"></span></div>
@@ -17,11 +17,11 @@
         </div>        
         <div>
             <ul>
-                <li *ngFor="let item of menuItems" [ngClass]="{'selected':isSelected(item.id)}" (click)="selectItem(item.id)"><a>{{item.name}}</a></li>
+                <li *ngFor="let item of menuItems" [ngClass]="{'selected':isSelected(item.id)}"><a  (click)="selectMenuItem(item.id)" routerLink="{{item.path}}">{{item.name}}</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="app-body" [style.height.px]="appBodyHeight">
-    <!--<router-outlet></router-outlet>-->
+    <router-outlet></router-outlet>
 </div>

@@ -12,7 +12,7 @@ import { IMenuItem } from './shared/interfaces';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Dynamic Dashboard';
   logo = '../assets/logo.png';
-  gravatarUrl = 'https://www.gravatar.com/avatar/36451f5c44ef99ae4d652b790763bfbd?s=100';
+  gravatarUrl = 'https://www.gravatar.com/avatar/d170836be1651dc272276351bb49878d?s=100';
   hamburgerMenuClicked = false;
   windowHeight = 0;
   appHeaderHeight = 100;
@@ -21,10 +21,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   selectedItemId = 1;
   menuItems = [
-    { id: 1, name: 'Home' },
-    { id: 2, name: 'Dashboard' },
-    { id: 3, name: 'Grids/Search' },
-    { id: 4, name: 'Messaging' },
+    { id: 1, name: 'Home', path:'home' },
+    { id: 2, name: 'Dashboard', path:'dashboard' },
+    { id: 3, name: 'Grids/Search', path:'grid' },
+    { id: 4, name: 'Messaging', path:'messaging' },
   ];
 
   constructor(private windowDataService: WindowDataService, private changeDetectorRef: ChangeDetectorRef) { }
@@ -44,8 +44,11 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.selectedItemId === id;
   }
 
-  selectItem(id: number) {
+  selectMenuItem(id: number) {
     this.selectedItemId = id;
+    if(this.hamburgerMenuClicked){
+      this.hamburgerMenuClicked = !this.hamburgerMenuClicked;
+    }
   }  
 
   onWindowHeightUpdate(windowHeight: number) {    
