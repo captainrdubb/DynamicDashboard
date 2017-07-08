@@ -34,18 +34,18 @@
         width: 0;           
         position: absolute;
         background-color: $blueish-white;     
-        box-shadow: -1px 0 25px rgba(0,0,0,.4);       
+        box-shadow: -2px 0 25px rgba(0,0,0,.4);       
         overflow-x: hidden;
         color: #4C4C4C;
-        font-weight: bold;
-
+        font-weight: bold;        
+        z-index: 1000;
         -webkit-transition: width .3s linear;
         -moz-transition: width .3s linear;
         -o-transition: width .3s linear;
         transition: width .3s linear;
 
         &.visible{
-            width: 250px;                
+            width: 250px; 
         }
 
         .close-tab{
