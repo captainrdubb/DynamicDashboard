@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { EventBusService } from './core/event-bus.service';
 import { WindowDataService } from './core/window-data.service';
 import { AppRoutingModule } from './app.routing.module';
 
@@ -12,9 +13,9 @@ import { AppRoutingModule } from './app.routing.module';
   imports: [
     BrowserModule,
     AppRoutingModule
-  ],  
-  exports:[],
-  providers: [WindowDataService],
+  ],
+  exports: [],
+  providers: [EventBusService, WindowDataService],
   bootstrap: [AppRoutingModule.components]
 })
 export class AppModule { }

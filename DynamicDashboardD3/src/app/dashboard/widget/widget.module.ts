@@ -1,12 +1,16 @@
 import { NgModule, Component, Type } from '@angular/core';
+
+import { SharedModule } from 'app/shared/shared.module';
 import { CommonModule } from '@angular/common';
+
 import { WidgetHostDirective } from './widget-host.directive';
 import { DisplayWidgetComponent } from './display-widget/display-widget.component';
 import { ChartWidgetComponent } from './chart-widget/chart-widget.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [
     WidgetHostDirective

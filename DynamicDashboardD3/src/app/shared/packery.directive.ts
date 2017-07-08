@@ -1,23 +1,20 @@
-import { Directive, ViewContainerRef, AfterViewInit } from '@angular/core';
+import { Directive, ViewContainerRef } from '@angular/core';
 import * as Packery from 'packery';
 
 @Directive({
   selector: '[dd-packery]',
-  inputs: ['itemClassSelector']
 })
 export class PackeryDirective {
 
   constructor(private viewContainerRef: ViewContainerRef) {
   }
 
-  itemClassSelector: string;
-
-  public onItemsReady(){
-    this.initializePackery();
+  public onItemsReady(itemSelector: string) {
+    this.initializePackery(itemSelector);
   }
 
-  private initializePackery() {
-    var nativeElement = this.viewContainerRef.element.nativeElement;
-    new Packery(nativeElement, { itemSelector: this.itemClassSelector, gutter: 10, percentPosition: true });
+  private initializePackery(itemSelector: string) {
+    let nativeElement = this.viewContainerRef.element.nativeElement;
+    let packery = new Packery(nativeElement, { itemSelector: itemSelector, gutter: 20, percentPosition: true });
   }
 }

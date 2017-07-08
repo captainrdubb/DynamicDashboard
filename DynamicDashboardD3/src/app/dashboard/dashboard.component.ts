@@ -1,30 +1,57 @@
-import { Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, Type, ComponentFactory, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ElementRef } from '@angular/core';
+import { ReplaySubject } from 'rxjs/replaysubject';
 
-import { PackeryDirective } from 'app/shared/packery.directive';
-import { WidgetHostDirective } from './widget/widget-host.directive';
 import { WidgetModule } from './widget/widget.module';
+
+import { PackeryDirective } from '../shared/packery.directive';
+import { WidgetHostDirective } from './widget/widget-host.directive';
+import { EventBusService } from '../core/event-bus.service';
 
 @Component({
   selector: 'dd-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']  
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
   packery: any;
+
+  widgetsReadyCount: number = 0;
+  widgetsReady: boolean[] = [false, false];
   widgets = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
     { id: 2, widgetType: "ChartWidgetComponent" },
   ];
+  widgetsReadyMap: { [key: number]: number } = {};
+
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef, private eventBusService: EventBusService) {
+    let widgetIndex = 0;
+    this.widgets.forEach((widget) => {
+      this.widgetsReadyMap[widget.id] = widgetIndex;
+      widgetIndex++;
+    });
+  }
 
   ngAfterViewInit(): void {
     this.loadWidgets();
-    this.packeryDirective.onItemsReady();
+    this.packeryDirective.onItemsReady('.widget');
+    // this.eventBusService.subscribeOnDragItemReady()
+    //   .subscribe((itemId: number) => this.onDragItemReady(itemId));
   }
+
+  // private onDragItemReady(itemId: number) {
+  //   let widgetIndex = this.widgetsReadyMap[itemId];
+  //   if (this.widgetsReady[widgetIndex] === false) {
+  //     this.widgetsReady[widgetIndex] = true;
+  //     this.widgetsReadyCount++;
+  //   }
+  //   if (this.widgetsReadyCount === this.widgets.length) {
+  //     this.packeryDirective.onItemsReady('.widget', '.dashboard', '.drag-hangle');
+  //   }
+  // }
 
   private loadWidgets() {
     let viewContainers = this.widgetViewContainers.toArray();
