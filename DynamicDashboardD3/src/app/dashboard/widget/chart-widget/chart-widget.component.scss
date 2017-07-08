@@ -1,0 +1,5 @@
+@import '../widget.shared';
+
+.widget.chart-widget{
+    @extend .widget;
+}

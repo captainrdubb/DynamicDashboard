@@ -1,5 +1,24 @@
 @import '../variables.scss';
 
+@mixin nav-item{
+    height: 40px;
+    font-size: 18px;
+    transition: font-size .3s ease-out;
+    &.selected{
+        border-bottom: 3px solid $blueish-white;
+    }   
+
+    &:hover{
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    a{
+        text-decoration: none;
+        color:inherit;
+    }
+}
+
 .app-header{
     display: block;
     height: 100px; 
@@ -50,33 +69,10 @@
             margin-top:20px;               
             list-style-type: none;  
             padding: 0;         
-            
             li {
                 display: block;
-                padding: 0 0 40px 30px;
-                height: 40px;
-                transition: font-size .3s ease-out;
-                
-                &:active{
-                    cursor: pointer;
-                    font-size: 19px;
-                    transition: font-size .3s ease-in;
-                }                
-
-                &.selected{
-                    border-bottom: 3px solid $blueish-white;
-                }   
-
-                &:hover{
-                    cursor: pointer;
-                    font-size: 19px;
-                    transition: font-size .3s ease-in;
-                }
-
-                a{
-                    text-decoration: none;
-                    color:inherit;
-                }
+                padding: 0 0 50px 30px;
+                @include nav-item;                
             }
         }
     }  
@@ -127,23 +123,8 @@
                 li {
                     float:left;
                     padding: 0 20px; 
-                    height: 40px;
-                    transition: font-size .3s ease-out;
-                    
-                    &:hover{
-                        cursor: pointer;
-                        font-size: 19px;
-                        transition: font-size .3s ease-in;
-                    }
-
-                    &.selected{
-                        border-bottom: 3px solid $blueish-white;
-                    } 
-
-                    a{
-                        text-decoration: none;
-                        color:inherit;                
-                    }  
+                    margin: 0 10px;                    
+                    @include nav-item;
                 }
             }
         }              

@@ -1,8 +1,8 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-    selector: 'widget-host'    
+    selector: 'widget-host',
 })
-export class WidgetHostDirective{
-    constructor(public viewContainerRef: ViewContainerRef){}
+export class WidgetHostDirective {
+    constructor(public viewContainerRef: ViewContainerRef) { }
 }

@@ -1,26 +1,29 @@
-import { Component, AfterViewInit, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, Type, ComponentFactory } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, Type, ComponentFactory, ElementRef } from '@angular/core';
 
+import { PackeryDirective } from 'app/shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
 import { WidgetModule } from './widget/widget.module';
 
 @Component({
   selector: 'dd-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss']  
 })
 export class DashboardComponent implements AfterViewInit {
-
-  @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
-  widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
+  packery: any;
   widgets = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
     { id: 2, widgetType: "ChartWidgetComponent" },
   ];
+  @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
+  @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
+  widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.loadWidgets();
+    this.packeryDirective.onItemsReady();
   }
 
   private loadWidgets() {

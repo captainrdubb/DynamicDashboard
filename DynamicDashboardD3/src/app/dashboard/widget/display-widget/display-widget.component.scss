@@ -1,0 +1,5 @@
+@import '../widget.shared';
+
+.display-widget{
+    @extend .widget;
+}
