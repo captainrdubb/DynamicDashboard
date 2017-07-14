@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 import { EventBusService } from 'app/core/event-bus.service';
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
@@ -10,13 +10,11 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class ChartWidgetComponent implements AfterViewInit {
 
-  constructor(private eventBusService: EventBusService) { }
+  constructor(private eventBusService: EventBusService) {}
 
-  widgetId = 1;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
   ngAfterViewInit(): void {
-    this.eventBusService.onDragItemReady(this.widgetId);
     this.draggabillyDirective.onItemsReady('.dashboard');
-  }
+  }  
 }

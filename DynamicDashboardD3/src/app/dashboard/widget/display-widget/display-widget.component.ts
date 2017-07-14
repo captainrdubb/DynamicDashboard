@@ -12,11 +12,9 @@ export class DisplayWidgetComponent implements AfterViewInit {
 
   constructor(private eventBusService: EventBusService) { }
 
-  widgetId = 2;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
   ngAfterViewInit(): void {
-    this.eventBusService.onDragItemReady(this.widgetId);
     this.draggabillyDirective.onItemsReady('.dashboard');
   }
 }

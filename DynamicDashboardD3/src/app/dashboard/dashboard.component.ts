@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ElementRef } from '@angular/core';
 import { ReplaySubject } from 'rxjs/replaysubject';
 
 import { WidgetModule } from './widget/widget.module';
@@ -12,46 +12,26 @@ import { EventBusService } from '../core/event-bus.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
-  packery: any;
-
-  widgetsReadyCount: number = 0;
-  widgetsReady: boolean[] = [false, false];
+export class DashboardComponent implements AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    console.log('Dashboard destroyed');
+  }
   widgets = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
     { id: 2, widgetType: "ChartWidgetComponent" },
+    { id: 3, widgetType: "ChartWidgetComponent" },
+    { id: 4, widgetType: "DisplayWidgetComponent" }
   ];
-  widgetsReadyMap: { [key: number]: number } = {};
-
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef, private eventBusService: EventBusService) {
-    let widgetIndex = 0;
-    this.widgets.forEach((widget) => {
-      this.widgetsReadyMap[widget.id] = widgetIndex;
-      widgetIndex++;
-    });
-  }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef, private eventBusService: EventBusService) { }
 
   ngAfterViewInit(): void {
     this.loadWidgets();
     this.packeryDirective.onItemsReady('.widget');
-    // this.eventBusService.subscribeOnDragItemReady()
-    //   .subscribe((itemId: number) => this.onDragItemReady(itemId));
   }
-
-  // private onDragItemReady(itemId: number) {
-  //   let widgetIndex = this.widgetsReadyMap[itemId];
-  //   if (this.widgetsReady[widgetIndex] === false) {
-  //     this.widgetsReady[widgetIndex] = true;
-  //     this.widgetsReadyCount++;
-  //   }
-  //   if (this.widgetsReadyCount === this.widgets.length) {
-  //     this.packeryDirective.onItemsReady('.widget', '.dashboard', '.drag-hangle');
-  //   }
-  // }
 
   private loadWidgets() {
     let viewContainers = this.widgetViewContainers.toArray();
@@ -61,7 +41,8 @@ export class DashboardComponent implements AfterViewInit {
       viewContainerRef.clear();
 
       let widgetFactory = this.getComponentFactory(widget.widgetType);
-      viewContainerRef.createComponent(widgetFactory);
+      let componentRef = viewContainerRef.createComponent(widgetFactory);      
+      componentRef.changeDetectorRef.detectChanges();
     }
   }
 

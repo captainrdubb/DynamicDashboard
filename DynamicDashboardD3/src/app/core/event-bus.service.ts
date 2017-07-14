@@ -1,18 +1,18 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ReplaySubject } from 'rxjs/replaysubject';
-
+import * as Draggabilly from 'draggabilly';
 @Injectable()
 export class EventBusService {
 
   constructor() { }
 
-  private _onDragItemReady: ReplaySubject<number> = new ReplaySubject();
+  private _onDraggabillyInitialized: ReplaySubject<Draggabilly> = new ReplaySubject();
 
-  subscribeOnDragItemReady(): ReplaySubject<number> {
-    return this._onDragItemReady;
+  onDraggabillyInitialized(draggabilly: Draggabilly) {
+    this._onDraggabillyInitialized.next(draggabilly);
   }
 
-  onDragItemReady(itemId: number) {
-    this._onDragItemReady.next(itemId);
+  getDraggabillyInstance(): ReplaySubject<Draggabilly> {
+    return this._onDraggabillyInitialized;
   }
 }

@@ -7,16 +7,8 @@
     background-image: -o-linear-gradient(#EEEEEE, #DCDCDC);
     background-image: linear-gradient(#EEEEEE, #DCDCDC);
     
-
-
-
-
-
-
-
-
-
-
-
-
+    &.is-dragging, &.is-positioning-post-drag {
+            opacity: 0.6;
+            z-index: 10;
+        }
 }
