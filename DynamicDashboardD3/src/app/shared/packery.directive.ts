@@ -9,7 +9,7 @@ import { EventBusService } from '../core/event-bus.service';
   selector: '[dd-packery]',
 })
 export class PackeryDirective implements OnDestroy {
-  
+
   constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) {
   }
 

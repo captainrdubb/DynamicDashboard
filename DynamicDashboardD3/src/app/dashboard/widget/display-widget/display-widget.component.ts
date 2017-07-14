@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 
-import { EventBusService } from 'app/core/event-bus.service';
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 
 @Component({
@@ -10,7 +9,7 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class DisplayWidgetComponent implements AfterViewInit {
 
-  constructor(private eventBusService: EventBusService) { }
+  constructor() { }
 
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 

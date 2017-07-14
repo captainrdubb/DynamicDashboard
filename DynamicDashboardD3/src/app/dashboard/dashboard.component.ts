@@ -5,7 +5,6 @@ import { WidgetModule } from './widget/widget.module';
 
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
-import { EventBusService } from '../core/event-bus.service';
 
 @Component({
   selector: 'dd-dashboard',
@@ -26,7 +25,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef, private eventBusService: EventBusService) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.loadWidgets();

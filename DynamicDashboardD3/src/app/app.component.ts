@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   windowHeight = 0;
   appHeaderHeight = 100;
   appBodyHeight: number;
-  selectedItemId:number = -1;
+  selectedItemId:number;
   navItems = [
     { id: 1, name: 'Home', path: 'home' },
     { id: 2, name: 'Dashboard', path: 'dashboard' },
@@ -47,7 +47,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.selectedItemId = item.id;        
       }
     });
-    event.url
+    if(!this.selectedItemId){
+      this.selectedItemId = 1;
+    }
   }
 
   ngOnDestroy(): void {
