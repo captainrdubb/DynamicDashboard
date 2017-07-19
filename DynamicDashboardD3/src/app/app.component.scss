@@ -1,32 +1,82 @@
-@import '../variables.scss';
+@import '../sass/variables.scss';
+.app-container{    
+    position: relative;
 
-@mixin nav-item{
-    height: 40px;
-    font-size: 18px;
-    transition: font-size .3s ease-out;
-    &.selected{
-        border-bottom: 3px solid $blueish-white;
-    }   
-
-    &:hover{
-        cursor: pointer;
-        font-size: 20px;
-    }
-
-    a{
-        text-decoration: none;
-        color:inherit;
+    .shadow-wrapper{
+        margin: 0 auto;        
+        max-width: $max-width;
+        box-shadow: 0 0 200px black;
     }
 }
-
 .app-header{
+    position: relative;
     display: block;
-    height: 100px; 
-    border-bottom: 1px solid rgba(0,0,0,.2);   
-    background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
-    background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
-    background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
-    background-image: linear-gradient(#00ECE7,#D0FCF7);    
+    margin:0 auto;
+    height: 70px; 
+    max-width: $max-width;    
+    border-bottom: 1px solid $blueish-white;
+    background-color: #26364A;         
+    
+    .developer{
+        height: 100%;
+        font-size: 23px;        
+        color:#FFAD0F; 
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid rgba(0,0,0,.2); 
+        font-family: 'Pacifico', cursive;
+        background-color:#1C2736;
+        border-right: 1px solid $blueish-white;
+    }
+
+    .location{
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bolder;
+        color: #ebffff;        
+    }
+    
+    .header-logo{   
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        top:20px;
+        left:30px;   
+        label{
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 30px;                        
+            letter-spacing: 1.25px;
+            padding-left: 10px;
+            text-shadow: 1px 1px $blueish-white;
+        }  
+        img{
+            border-radius: 100px;
+            border: 2px solid #4C4C4C;
+        }
+    }                  
+
+    .hamburger-toggle{
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;            
+        height: 30px;            
+        font-size: 25px;
+        align-items: center;
+        justify-content: center;
+        color: #ebffff;
+        background: #2C2C2C;
+        border: 1px solid #ebffff;            
+        display: flex;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
 
     .header-menu-sm{
         top:0;
@@ -72,92 +122,30 @@
             li {
                 display: block;
                 padding: 0 0 50px 30px;
-                @include nav-item;                
-            }
-        }
-    }  
+                height: 40px;
+                font-size: 18px;
+                transition: font-size .3s ease-out;
+                &.selected{
+                    border-bottom: 3px solid -white;
+                }   
 
-    .header-container{        
-        position: relative;
-        max-width: $max-width;
-        height: auto;
-        margin: 0 auto;        
-        .header-logo{   
-            position: absolute;
-            display: inline-flex;
-            align-items: center;
-            top:20px;
-            left:30px;   
-            label{
-                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-                font-size: 30px;                        
-                letter-spacing: 1.25px;
-                padding-left: 10px;
-                text-shadow: 1px 1px $blueish-white;
-            }  
-            img{
-                border-radius: 100px;
-                border: 2px solid #4C4C4C;
-            }
-        }
+                &:hover{
+                    cursor: pointer;
+                    font-size: 20px;
+                }
 
-        .header-menu-lg{
-            position: absolute;
-            top:50px;
-            right:20px;
-            color: #4C4C4C;
-            font-weight: bold;
-
-            @media(max-width: $sm-width-cieling){
-                display: none;
-            }
-
-            @media(min-width: $lg-width-floor){
-                display: inline;
-            }
-
-            ul{     
-                margin:0;               
-                list-style-type: none;           
-                
-                li {
-                    float:left;
-                    padding: 0 20px; 
-                    margin: 0 10px;                    
-                    @include nav-item;
+                a{
+                    text-decoration: none;
+                    color:inherit;
                 }
             }
-        }              
-
-        .hamburger-menu{
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 30px;            
-            height: 30px;            
-            font-size: 25px;
-            align-items: center;
-            justify-content: center;
-            color: $blueish-white;
-            background: #2C2C2C;
-            border: 1px solid $blueish-white;
-            @media(max-width: $sm-width-cieling){
-                display: flex;
-            }
-
-            @media(min-width: $lg-width-floor){
-                display: none;
-            }
-
-            &:hover{
-                cursor: pointer;
-            }
         }
-    }       
+    }
+         
 }
 
 .app-body{
     margin: 0 auto;
-    max-width: $max-width;
-    padding: 50px 30px;
+    max-width: $max-width;        
+    background-color:#1C2736;//#C7DDFF;    
 }

@@ -1,5 +1,10 @@
 @import '../widget.shared';
 
 .widget.chart-widget{
-    @extend .widget;
+    @extend .widget;  
+    
+    svg{
+        height: 100%;
+        width: 100%;
+    }
 }

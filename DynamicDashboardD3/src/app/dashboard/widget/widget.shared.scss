@@ -1,14 +1,10 @@
 .widget{
-    width:400;
+    width:355;
     height:300px;
-    border-radius: 5px;    
-    background-image: -webkit-linear-gradient(#EEEEEE, #DCDCDC);
-    background-image: -moz-linear-gradient(#EEEEEE, #DCDCDC);
-    background-image: -o-linear-gradient(#EEEEEE, #DCDCDC);
-    background-image: linear-gradient(#EEEEEE, #DCDCDC);
+    background-color: rgba(0,0,0,0.6);
     
     &.is-dragging, &.is-positioning-post-drag {
-            opacity: 0.6;
+            background-color: rgba(0,0,0,0.9);
             z-index: 10;
         }
 }

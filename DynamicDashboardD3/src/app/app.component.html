@@ -1,27 +1,109 @@
-<div class="app-header">
-    <div class="header-container">
-        <div class="header-logo">
-            <img [src]="gravatarUrl" />
-            <label>Joel Rainear-Wills</label>
+<div class="app-container">
+    <div class="shadow-wrapper">
+        <div #appHeader class="app-header">
+            <div class="developer col-sm-2">J. Rainear Wills</div>
+            <!-- <div class="hamburger-toggle" (click)="hamburgerMenuClicked = !hamburgerMenuClicked"><span class="fa fa-bars"></span></div>
+            <div class="header-menu-sm" [style.height.px]="windowHeight" [ngClass]="{'visible': hamburgerMenuClicked }">
+                <div class="close-tab">
+                    <div class="close-button" (click)="hamburgerMenuClicked = !hamburgerMenuClicked">&rsaquo;&rsaquo;</div>
+                </div>
+                <div>
+                    <ul>
+                        <li *ngFor="let item of navItems"><a (click)="selectNavItem(item)" routerLink="{{item.path}}">{{item.name}}</a></li>
+                    </ul>
+                </div>
+            </div> -->
         </div>
-        <div class="header-menu-lg">
-            <ul>
-                <li *ngFor="let item of navItems" [ngClass]="{'selected':isSelectedNavItem(item.id)}" ><a (click)="selectNavItem(item.id)" routerLink="{{item.path}}">{{item.name}}</a></li>
-            </ul>
-        </div>
-        <div class="hamburger-menu" (click)="hamburgerMenuClicked = !hamburgerMenuClicked"><span class="fa fa-bars"></span></div>
-    </div>
-    <div class="header-menu-sm" [style.height.px]="windowHeight" [ngClass]="{'visible': hamburgerMenuClicked }">
-        <div class="close-tab">
-            <div class="close-button" (click)="hamburgerMenuClicked = !hamburgerMenuClicked">&rsaquo;&rsaquo;</div>
-        </div>        
-        <div>
-            <ul>
-                <li *ngFor="let item of navItems" [ngClass]="{'selected':isSelectedNavItem(item.id)}"><a  (click)="selectNavItem(item.id)" routerLink="{{item.path}}">{{item.name}}</a></li>
-            </ul>
+        <div class="app-body" [style.height.px]="appBodyHeight">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-<div class="app-body" [style.height.px]="appBodyHeight">
-    <router-outlet></router-outlet>
-</div>
+
+<script>
+    var body = document.getElementsByTagName('body');
+    var text = body[0].innerText;
+    text.match(/(\d{2,3},\s*\d{2,3},\s*\d{2,3})/g)
+</script>
+
+<div style="color:#ec644b"><div>;
+<div style="color:#d24d57"><div>;
+<div style="color:#f22613"><div>;
+<div style="color:#d91e18"><div>;
+<div style="color:#96281b"><div>;
+<div style="color:#ef4836"><div>;
+<div style="color:#d64541"><div>;
+<div style="color:#c0392b"><div>;
+<div style="color:#e74c3c"><div>;
+<div style="color:#db0a5b"><div>;
+<div style="color:#f64747"><div>;
+<div style="color:#f1a9a0"><div>;
+<div style="color:#d2527f"><div>;
+<div style="color:#e08283"><div>;
+<div style="color:#f62459"><div>;
+<div style="color:#e26a6a"><div>;
+<div style="color:#dcc6e0"><div>;
+<div style="color:#639"><div>;
+<div style="color:#674172"><div>;
+<div style="color:#aea8d3"><div>;
+<div style="color:#913d88"><div>;
+<div style="color:#9a12b3"><div>;
+<div style="color:#bf55ec"><div>;
+<div style="color:#be90d4"><div>;
+<div style="color:#8e44ad"><div>;
+<div style="color:#9b59b6"><div>;
+<div style="color:#446cb3"><div>;
+<div style="color:#e4f1fe"><div>;
+<div style="color:#4183d7"><div>;
+<div style="color:#59abe3"><div>;
+<div style="color:#81cfe0"><div>;
+<div style="color:#52b3d9"><div>;
+<div style="color:#c5eff7"><div>;
+<div style="color:#22a7f0"><div>;
+<div style="color:#3498db"><div>;
+<div style="color:#2c3e50"><div>;
+<div style="color:#19b5fe"><div>;
+<div style="color:#336e7b"><div>;
+<div style="color:#22313f"><div>;
+<div style="color:#6bb9f0"><div>;
+<div style="color:#1e8bc3"><div>;
+<div style="color:#3a539b"><div>;
+<div style="color:#34495e"><div>;
+<div style="color:#67809f"><div>;
+<div style="color:#2574a9"><div>;
+<div style="color:#1f3a93"><div>;
+<div style="color:#89c4f4"><div>;
+<div style="color:#4b77be"><div>;
+<div style="color:#5c97bf"><div>;
+<div style="color:#4ecdc4"><div>;
+<div style="color:#a2ded0"><div>;
+<div style="color:#87d37c"><div>;
+<div style="color:#90c695"><div>;
+<div style="color:#26a65b"><div>;
+<div style="color:#68c3a3"><div>;
+<div style="color:#65c6bb"><div>;
+<div style="color:#1bbc9b"><div>;
+<div style="color:#1ba39c"><div>;
+<div style="color:#66cc0f"><div>;
+<div style="color:#36d7b7"><div>;
+<div style="color:#c8f713"><div>;
+<div style="color:#86e215"><div>;
+<div style="color:#2ecc71"><div>;
+<div style="color:#16a085"><div>;
+<div style="color:#3fc380"><div>;
+<div style="color:#4daf7c"><div>;
+<div style="color:#2abb9b"><div>;
+<div style="color:#1e824c"><div>;
+<div style="color:#26c281"><div>;
+<div style="color:#f5d70b"><div>;
+<div style="color:#f7ca18"><div>;
+<div style="color:#f4d03f"><div>;
+<div style="color:#e9d460"><div>;
+<div style="color:#fde310"><div>;
+<div style="color:#eb9532"><div>;
+<div style="color:#f4b350"><div>;
+<div style="color:#f2784b"><div>;
+<div style="color:#eb974e"><div>;
+<div style="color:#f5ab35"><div>;
+<div style="color:#f39c12"><div>;
+<div style="color:#f9690e"><div>;

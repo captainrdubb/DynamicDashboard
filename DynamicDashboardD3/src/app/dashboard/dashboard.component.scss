@@ -1,0 +1,18 @@
+@import '../../sass/variables.scss';
+
+.dashboard-container{
+
+    &.row{
+        margin: 0;
+    }
+
+    .side-bar{  
+        border-right: 1px solid $blueish-white;      
+        background-color: #26364A;
+        min-height: 100%;
+    }
+
+    .dashboard{
+        padding:0;
+    }
+}

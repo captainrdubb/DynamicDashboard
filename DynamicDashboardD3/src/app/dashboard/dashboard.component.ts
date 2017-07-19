@@ -18,8 +18,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   widgets = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
     { id: 2, widgetType: "ChartWidgetComponent" },
-    { id: 3, widgetType: "ChartWidgetComponent" },
-    { id: 4, widgetType: "DisplayWidgetComponent" }
+    { id: 3, widgetType: "ChartWidgetComponent" }    
   ];
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;

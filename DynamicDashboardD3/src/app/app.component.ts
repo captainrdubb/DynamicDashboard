@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
 
@@ -8,9 +9,9 @@ import { WindowDataService } from './core/window-data.service';
 @Component({
   selector: 'dd-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']  
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {  
   title = 'Dynamic Dashboard';
   logo = '../assets/logo.png';
   gravatarUrl = 'https://www.gravatar.com/avatar/d170836be1651dc272276351bb49878d?s=100';
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   windowHeight = 0;
   appHeaderHeight = 100;
   appBodyHeight: number;
-  selectedItemId:number;
+  selectedNavItem: INavItem;
   navItems = [
     { id: 1, name: 'Home', path: 'home' },
     { id: 2, name: 'Dashboard', path: 'dashboard' },
@@ -29,9 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private windowDataService: WindowDataService, private router: Router) { }
 
+  @ViewChild('appHeader') appHeader: ElementRef;
+
   ngOnInit(): void {
-    this.router.events.subscribe((event)=>{
-      if(event instanceof NavigationEnd){
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
         this.selectNavItemFromRoute(event);
       }
     });
@@ -41,14 +44,18 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 
-  selectNavItemFromRoute(event:NavigationEnd){
-    this.navItems.forEach((item:INavItem)=>{
-      if(event.url === `/${item.path}`){
-        this.selectedItemId = item.id;        
+  ngAfterViewInit(): void {
+    //throw new Error("Method not implemented.");
+  }
+  
+  selectNavItemFromRoute(event: NavigationEnd) {
+    this.navItems.forEach((item: INavItem) => {
+      if (event.url === `/${item.path}`) {
+        this.selectedNavItem = item;
       }
     });
-    if(!this.selectedItemId){
-      this.selectedItemId = 1;
+    if (!this.selectedNavItem) {
+      this.selectedNavItem = this.navItems[0];
     }
   }
 
@@ -57,11 +64,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isSelectedNavItem(id: number) {
-    return this.selectedItemId === id;
+    return this.selectedNavItem.id === id;
   }
 
-  selectNavItem(id: number) {
-    this.selectedItemId = id;
+  selectNavItem(navItem: INavItem) {
+    this.selectedNavItem = navItem;
     if (this.hamburgerMenuClicked) {
       this.hamburgerMenuClicked = !this.hamburgerMenuClicked;
     }
@@ -69,6 +76,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onWindowHeightUpdate(windowHeight: number) {
     this.windowHeight = windowHeight;
-    this.appBodyHeight = windowHeight - this.appHeaderHeight;
+    this.appBodyHeight = windowHeight - this.appHeader.nativeElement.clientHeight - 1;
   }
 }
