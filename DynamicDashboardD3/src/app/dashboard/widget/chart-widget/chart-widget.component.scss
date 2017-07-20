@@ -2,9 +2,24 @@
 
 .widget.chart-widget{
     @extend .widget;  
-    
-    svg{
-        height: 100%;
+
+    .chart-header{
+        height: 10%;
+        width:100%;
+    }
+
+    .chart{
+        height: 85%;
         width: 100%;
+
+        /deep/ path.arc{
+            &:hover{                
+                fill-opacity: .3;                
+            }
+            &.selected{
+                stroke:white;
+                stroke-width: 3px;
+            }
+        }
     }
 }

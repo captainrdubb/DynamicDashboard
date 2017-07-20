@@ -20,22 +20,22 @@ export class D3Service {
       .outerRadius(radius)
       .innerRadius(radius - (radius / 3));
 
-    var min = d3.min(data, function (data) {
+    var min = d3.min(data, (data) => {
       return +data[datumIndex];
     });
-    var max = d3.max(data, function (data) {
+    var max = d3.max(data, (data) => {
       return +data[datumIndex];
     });
-    var color = d3.scaleSequential(d3Chromatic.schemeSpectral).domain([0, data.length - 1]);
+    var color = d3.scaleSequential(d3Chromatic.interpolateSpectral).domain([0, data.length - 1]);
     var scale = d3.scaleLinear()
       .domain([min, max])
       .range([0, 100]);
 
     var pie = d3.pie();
-    pie.sort(function (a, b) {
+    pie.sort((a, b) => {
       return a[labelIndex].localeCompare(b[labelIndex]);
     });
-    pie.value(function (data) {
+    pie.value((data) => {
       return scale(+data[datumIndex]);
     });
 
@@ -44,9 +44,18 @@ export class D3Service {
     var path = group.selectAll("path")
       .data(pie(data))
       .enter()
-      .append("path").attr("d", arc)
+      .append("path")
+      .on("click", () => {
+        d3.select(this)
+          .classed("selected", (d, i) => {
+            //return d3.select(this).classed("selected");
+          });
+      })
+      .attr("class", "arc")
+      .attr("d", arc)
       .attr("fill", function (d, i) {
         let paint = color(i);
+        console.log(paint);
         return paint;
       });
   }

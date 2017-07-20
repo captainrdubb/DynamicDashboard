@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
@@ -8,7 +8,8 @@ import { D3Service } from '../../../core/d3.service';
 @Component({
   selector: 'dd-chart-widget',
   templateUrl: './chart-widget.component.html',
-  styleUrls: ['./chart-widget.component.scss']
+  styleUrls: ['./chart-widget.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ChartWidgetComponent implements AfterViewInit {
 
