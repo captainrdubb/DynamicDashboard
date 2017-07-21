@@ -18,7 +18,6 @@ export class D3Service {
 
     let text = group.append("text")
       .attr("text-anchor", "middle")
-      // .attr("text-align", "center")
       .attr("font-size", "20px")
       .attr("fill", "white");
 

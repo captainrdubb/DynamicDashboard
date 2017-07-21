@@ -7,6 +7,82 @@ export class D3Service {
 
   constructor() { }
 
+  nextTextId = 0;
+  textMap: { [key: number]: any[] } = {};
+  resetTspanValueTimeout: any;
+
+  private addGroup(svg: any, chartWidth: number, chartHeight: number) {
+    var group = svg.append("g");
+    group.attr("transform", "translate(" + (chartWidth / 2) + ',' + (chartHeight / 2) + ')')
+    return group;
+  }
+
+  private addTextToSelection(selection: any) {
+    let text = selection.append("text")
+      .attr("text-anchor", "middle")
+      .attr("font-size", "20px")
+      .attr("fill", "white")
+      .attr("id", `test-${this.nextTextId}`);
+    this.textMap[this.nextTextId] = [];
+    this.nextTextId++;
+    return text;
+  }
+
+  private createArc = (radius) => {
+    let arc = d3.arc()
+      .outerRadius(radius)
+      .innerRadius(radius - (radius / 3));
+    return arc;
+  }
+
+  private debounce(callback: () => void, time: number) {
+    clearTimeout(this.resetTspanValueTimeout);
+    this.resetTspanValueTimeout = setTimeout(callback, time);
+  }
+
+  private changeTSpanValues(path: any, text: any, labelIndex: number, datumIndex: number, cacheValues: boolean) {
+    let tspans = text.selectAll("tspan");
+    let textId = text.attr("id");
+    let format = d3.format(",");
+    let label = path.data[labelIndex];
+    let value = format(+path.data[datumIndex]);
+
+    if (cacheValues) {
+      this.textMap[textId] = [label, value];
+    }
+
+    if (!tspans.empty()) {
+      d3.select(tspans._groups[0][0]).text(label);
+      d3.select(tspans._groups[0][1]).text(format(+path.data[datumIndex]));
+    } else {
+      let labelSpan = text
+        .append("tspan")
+        .text(label)
+        .attr("x", "0")
+        .attr("dy", "-.5em");
+
+      let datumSpan = text
+        .append("tspan")
+        .text(value)
+        .attr("x", "0")
+        .attr("dy", "1.25em");
+    }
+  }
+
+  private resetTspanValues(text) {
+    let service = this;
+    let textId = text.attr("id");
+    let tspanValues = this.textMap[textId];
+    if (tspanValues) {
+      let tspans = text.selectAll("tspan");
+      d3.select(tspans._groups[0][0]).text(tspanValues[0]);
+      d3.select(tspans._groups[0][1]).text(tspanValues[1]);
+    } else {
+      text.selectAll("tspan")
+        .remove();
+    }
+  }
+
   createPieChart(svg: ElementRef, data: string[][], datumIndex: number, labelIndex: number, selectionCallback: (path: any, $event: Event) => void): void {
     var chartWidth = +(svg.nativeElement.clientWidth);
     var chartHeight = +(svg.nativeElement.clientHeight);
@@ -14,27 +90,6 @@ export class D3Service {
 
     let d3Svg = d3.select(svg.nativeElement);
 
-    let createGroup = (chartWidth, chartHeight) => {
-      var group = d3Svg.append("g");
-      group.attr("transform", "translate(" + (chartWidth / 2) + ',' + (chartHeight / 2) + ')')
-      return group;
-    }
-
-    let createText = (group: any) => {
-      let text = group.append("text")
-        .attr("text-anchor", "middle")
-        .attr("font-size", "20px")
-        .attr("fill", "white");
-      return text;
-    }
-
-    let createArc = (radius) => {
-      let arc = d3.arc()
-        .outerRadius(radius)
-        .innerRadius(radius - (radius / 3));
-      return arc;
-    }
-    
     var min = d3.min(data, (data) => {
       return +data[datumIndex];
     });
@@ -43,11 +98,11 @@ export class D3Service {
       return +data[datumIndex];
     });
 
-    let group = createGroup(chartWidth, chartHeight);
-    let text = createText(group);
-    var arc = createArc(radius);
-    
-    var color = d3.scaleSequential(d3Chromatic.interpolateSpectral).domain([0, data.length - 1]);
+    let group = this.addGroup(d3Svg, chartWidth, chartHeight);
+    let text = this.addTextToSelection(group);
+    var arc = this.createArc(radius);
+
+    var colorScale = d3.scaleSequential(d3Chromatic.interpolateSpectral).domain([0, data.length - 1]);
 
     var dataScale = d3.scaleLinear()
       .domain([min, max])
@@ -61,34 +116,25 @@ export class D3Service {
       return dataScale(+data[datumIndex]);
     });
 
-    let format = d3.format(",");
     var path = group.selectAll("path")
       .data(pie(data))
       .enter()
       .append("path")
-      .on("click", (path: any) => {
-        let oldSpans = text.selectAll("tspan");
-        oldSpans.exit();
-        oldSpans.remove();
-
-        let labelSpan = text
-          .append("tspan")
-          .text(path.data[labelIndex])
-          .attr("x", "0")
-          .attr("dy", "-.5em");
-
-        let datumSpan = text
-          .append("tspan")
-          .text(format(+path.data[datumIndex]))
-          .attr("x", "0")
-          .attr("dy", "1.25em");
-
+      .on("click", (path) => {
+        this.changeTSpanValues(path, text, labelIndex, datumIndex, true);
         selectionCallback(path, d3.event);
+      })
+      .on("mouseover", (path) => {
+        clearTimeout(this.resetTspanValueTimeout);
+        this.changeTSpanValues(path, text, labelIndex, datumIndex, false);
+      })
+      .on("mouseout", () => {
+        this.resetTspanValueTimeout = setTimeout(this.resetTspanValues(text), 500);
       })
       .attr("class", "arc")
       .attr("d", arc)
       .attr("fill", function (d, i) {
-        let paint = color(i);
+        let paint = colorScale(i);
         return paint;
       });
   }
