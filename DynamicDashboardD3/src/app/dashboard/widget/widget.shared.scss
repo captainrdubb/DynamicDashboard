@@ -1,10 +1,15 @@
 .widget{
-    width:354;
-    height:300px;
+    position: relative;
     background-color: rgba(0,0,0,0.2);
-    
     &.is-dragging, &.is-positioning-post-drag {
-            background-color: rgba(0,0,0,0.4);
-            z-index: 10;
-        }
+        background-color: rgba(0,0,0,0.4);
+        z-index: 10;
+    }
+
+    .chart-header{
+        color: white;
+        font-size: 14px;
+        height: 30px;
+        padding: 5px 0 0 15px;
+    }
 }

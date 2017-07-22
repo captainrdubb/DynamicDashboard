@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 
@@ -10,6 +10,8 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 export class DisplayWidgetComponent implements AfterViewInit {
 
   constructor() { }
+  
+  @Input() displayHeader;
 
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 

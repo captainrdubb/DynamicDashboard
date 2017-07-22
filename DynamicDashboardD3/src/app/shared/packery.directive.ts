@@ -28,7 +28,7 @@ export class PackeryDirective implements OnDestroy {
       itemSelector: itemSelector,
       gutter: 1, 
       percentPosition: true, 
-      columnWidth: 354,
+      columnWidth: 190,
       transitionDuration: '.8s'
     });
   }

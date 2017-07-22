@@ -1,5 +1,9 @@
 @import '../widget.shared';
+@import '../../../../sass/variables.scss';
 
 .display-widget{
     @extend .widget;
+    
+    height:200px;
+     @include getPackeryFriendlyWidth(1); 
 }
