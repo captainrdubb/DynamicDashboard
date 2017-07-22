@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PackeryDirective } from './packery.directive';
 import { DraggabillyDirective } from './draggabilly.directive';
+import { IColumnWidth } from './interfaces';
 
 @NgModule({
   imports: [

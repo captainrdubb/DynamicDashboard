@@ -4,16 +4,18 @@
 
     .shadow-wrapper{
         margin: 0 auto;        
-        max-width: $max-width;
+        width: $app-width;
         box-shadow: 0 0 200px black;
     }
 }
 .app-header{
-    position: relative;
+    position: absolute;
+    top:0;
+    z-index: 10;
     display: block;
     margin:0 auto;
-    height: 70px; 
-    max-width: $max-width;    
+    height: $header-height; 
+    width: $app-width;    
     border-bottom: 1px solid $blueish-white;
     background-color: #26364A;         
     
@@ -146,6 +148,8 @@
 
 .app-body{
     margin: 0 auto;
-    max-width: $max-width;        
+    max-width: $app-width;   
+    padding-top: $header-height; 
+    height: 100%;    
     background-color:#1C2736;//#C7DDFF;    
 }

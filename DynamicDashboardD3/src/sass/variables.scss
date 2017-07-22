@@ -1,10 +1,7 @@
 /*variables*/
 $blueish-white: #ebffff;
-$max-width: 1140px;
-$packer-column-width: 190px;
+$app-width: 1280px;
+$header-height: 70px;
+
 $lg-width-floor: 950px;
 $sm-width-cieling: 974px;
-
-@mixin getPackeryFriendlyWidth($multiplier){
-    width:$packer-column-width * $multiplier;
-}

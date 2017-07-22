@@ -3,3 +3,8 @@ export interface INavItem {
     name: string;
     path: string;
 }
+
+export interface IColumnWidth {
+    width:number;
+    defaultWidth: number;
+}

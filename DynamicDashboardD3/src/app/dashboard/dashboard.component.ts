@@ -3,6 +3,7 @@ import { ReplaySubject } from 'rxjs/replaysubject';
 
 import { WidgetModule } from './widget/widget.module';
 
+import { IColumnWidth } from '../shared/interfaces';
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
 
@@ -18,20 +19,22 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   widgets = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
     { id: 2, widgetType: "ChartWidgetComponent" },
-    { id: 3, widgetType: "ChartWidgetComponent" }    
+    { id: 3, widgetType: "ChartWidgetComponent" }
   ];
+  @ViewChild('dashboard') dashboard: ElementRef;
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private parentElementRef: ElementRef) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngAfterViewInit(): void {
-    this.loadWidgets();
-    this.packeryDirective.onItemsReady('.widget');
+    let columnWidth = this.loadWidgets();
+    this.packeryDirective.onItemsReady('.widget', columnWidth);
   }
 
-  private loadWidgets() {
+  private loadWidgets(): number {
+    let columnWidth = Math.floor(this.dashboard.nativeElement.clientWidth / this.widgets.length) - 1;
     let viewContainers = this.widgetViewContainers.toArray();
     for (let i = 0; i < this.widgets.length; ++i) {
       let widget = this.widgets[i];
@@ -39,9 +42,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       viewContainerRef.clear();
 
       let widgetFactory = this.getComponentFactory(widget.widgetType);
-      let componentRef = viewContainerRef.createComponent(widgetFactory);      
+      let componentRef = viewContainerRef.createComponent(widgetFactory);
+      (<IColumnWidth>componentRef.instance).defaultWidth = columnWidth;
       componentRef.changeDetectorRef.detectChanges();
     }
+    return columnWidth;
   }
 
   private getComponentFactory(widgetComponentKey: string) {

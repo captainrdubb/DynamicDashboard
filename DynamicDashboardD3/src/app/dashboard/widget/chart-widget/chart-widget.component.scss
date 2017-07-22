@@ -1,11 +1,9 @@
 @import '../widget.shared';
-@import '../../../../sass/variables.scss';
 
 .widget.chart-widget{
     @extend .widget;  
     
     height:400px;
-    @include getPackeryFriendlyWidth(2);    
 
     .chart{
         height: 85%;

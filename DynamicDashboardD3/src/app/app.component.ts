@@ -4,22 +4,17 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
 
 import { INavItem } from './shared/interfaces';
-import { WindowDataService } from './core/window-data.service';
 
 @Component({
   selector: 'dd-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit, OnDestroy {  
+export class AppComponent implements OnInit {  
   title = 'Dynamic Dashboard';
   logo = '../assets/logo.png';
   gravatarUrl = 'https://www.gravatar.com/avatar/d170836be1651dc272276351bb49878d?s=100';
   hamburgerMenuClicked = false;
-  windowHeightSubscription: Subscription;
-  windowHeight = 0;
-  appHeaderHeight = 100;
-  appBodyHeight: number;
   selectedNavItem: INavItem;
   navItems = [
     { id: 1, name: 'Home', path: 'home' },
@@ -28,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     { id: 4, name: 'Messaging', path: 'messaging' },
   ];
 
-  constructor(private windowDataService: WindowDataService, private router: Router) { }
+  constructor(private router: Router) { }
 
   @ViewChild('appHeader') appHeader: ElementRef;
 
@@ -38,15 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectNavItemFromRoute(event);
       }
     });
-    this.onWindowHeightUpdate(this.windowDataService.getWindowHeight());
-    this.windowHeightSubscription = this.windowDataService.getWindowHeightUpdates().subscribe((height) => {
-      this.onWindowHeightUpdate(height);
-    })
-  }
-
-  ngAfterViewInit(): void {
-    //throw new Error("Method not implemented.");
-  }
+  } 
   
   selectNavItemFromRoute(event: NavigationEnd) {
     this.navItems.forEach((item: INavItem) => {
@@ -59,9 +46,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.windowHeightSubscription.unsubscribe();
-  }
+  
 
   isSelectedNavItem(id: number) {
     return this.selectedNavItem.id === id;
@@ -74,8 +59,5 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onWindowHeightUpdate(windowHeight: number) {
-    this.windowHeight = windowHeight;
-    this.appBodyHeight = windowHeight - this.appHeader.nativeElement.clientHeight - 1;
-  }
+  
 }

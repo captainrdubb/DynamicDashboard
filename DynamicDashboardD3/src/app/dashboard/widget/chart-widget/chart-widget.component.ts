@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation, Renderer } from '@angular/core';
 import { Response } from '@angular/http';
 
+import { IColumnWidth } from '../../../shared/interfaces';
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 import { CensusDataService } from '../../../core/census-data.service';
 import { D3Service } from '../../../core/d3.service';
@@ -11,14 +12,20 @@ import { D3Service } from '../../../core/d3.service';
   styleUrls: ['./chart-widget.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class ChartWidgetComponent implements AfterViewInit {
+export class ChartWidgetComponent implements OnInit, AfterViewInit, IColumnWidth {
 
   constructor(private censusDataService: CensusDataService, private d3Service: D3Service, private renderer: Renderer) { }
 
-  selectedPath: EventTarget;
+  width: number;
+  defaultWidth: number;  
+  selectedPath: EventTarget;  
   chartHeader = "Languages in Nebraska";
   @ViewChild('chartWidget') chartWidget: ElementRef;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
+
+  ngOnInit(){
+    this.width = this.width || this.defaultWidth;
+  }
 
   ngAfterViewInit(): void {
     // this.censusDataService.getLanguageData().subscribe((response: Response) => {

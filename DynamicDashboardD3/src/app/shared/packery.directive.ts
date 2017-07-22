@@ -16,19 +16,19 @@ export class PackeryDirective implements OnDestroy {
   packery: Packery;
   draggabillySubscription: Subscription;
 
-  public onItemsReady(itemSelector: string) {
-    this.initializePackery(itemSelector);
+  public onItemsReady(itemSelector: string, columnWidth: number) {
+    this.initializePackery(itemSelector, columnWidth);
     this.draggabillySubscription = this.eventBusService.getDraggabillyInstance()
       .subscribe((draggabilly: Draggabilly) => this.setDraggabillyEvents(draggabilly));
   }
 
-  private initializePackery(itemSelector: string) {
+  private initializePackery(itemSelector: string, columnWidth: number) {
     let nativeElement = this.viewContainerRef.element.nativeElement;
-    this.packery = new Packery(nativeElement, { 
+    this.packery = new Packery(nativeElement, {
       itemSelector: itemSelector,
-      gutter: 1, 
-      percentPosition: true, 
-      columnWidth: 190,
+      gutter: 1,
+      percentPosition: true,
+      columnWidth: columnWidth,
       transitionDuration: '.8s'
     });
   }
