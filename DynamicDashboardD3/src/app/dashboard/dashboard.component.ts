@@ -33,7 +33,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.packeryDirective.onItemsReady('.widget', columnWidth);
   }
 
-  private loadWidgets(): number {
+private loadWidgets(): number {
     let columnWidth = Math.floor(this.dashboard.nativeElement.clientWidth / this.widgets.length) - 1;
     let viewContainers = this.widgetViewContainers.toArray();
     for (let i = 0; i < this.widgets.length; ++i) {

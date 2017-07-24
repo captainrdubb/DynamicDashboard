@@ -21,8 +21,8 @@
     
     .developer{
         height: 100%;
-        font-size: 21px;        
-        color:#FFAD0F; 
+        font-size: 24px;        
+        color:$logo-font-color; 
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -150,6 +150,6 @@
     margin: 0 auto;
     max-width: $app-width;   
     padding-top: $header-height; 
-    height: 100%;    
-    background-color:#1C2736;//#C7DDFF;    
+    background-color:#1C2736;//#C7DDFF;        
+    min-height: 100%;    
 }

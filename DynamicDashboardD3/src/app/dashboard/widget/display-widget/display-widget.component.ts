@@ -12,6 +12,7 @@ export class DisplayWidgetComponent implements OnInit, AfterViewInit, IColumnWid
   
   defaultWidth: number;
   width: number;
+  editMode = false;
 
   constructor() { }
   
@@ -25,5 +26,14 @@ export class DisplayWidgetComponent implements OnInit, AfterViewInit, IColumnWid
 
   ngAfterViewInit(): void {    
     this.draggabillyDirective.onItemsReady('.dashboard');
+  }
+
+  toggleEditMode(){
+    this.editMode = !this.editMode;
+    if(this.editMode){
+      this.draggabillyDirective.disable();
+    }else{
+      this.draggabillyDirective.enable();
+    }
   }
 }
