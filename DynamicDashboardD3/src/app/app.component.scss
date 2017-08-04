@@ -1,13 +1,15 @@
 @import '../sass/variables.scss';
 .app-container{    
     position: relative;
-
-    .shadow-wrapper{
-        margin: 0 auto;        
-        width: $app-width;
-        box-shadow: 0 0 200px black;
+    margin: 0 auto;    
+    width: $app-width;
+    
+    .shadow-wrapper{        
+        width: 100%;
+        box-shadow: 0 0 10px black;
     }
 }
+
 .app-header{
     position: absolute;
     top:0;
@@ -16,20 +18,35 @@
     margin:0 auto;
     height: $header-height; 
     width: $app-width;    
-    border-bottom: 1px solid $blueish-white;
-    background-color: #26364A;         
+    
+    // &::after{
+    //     content: "";
+    //     width: 100%;
+    //     height: 30px;
+    //     background: rgba(255,255,255,.8);
+    //     display: block;
+    //     box-shadow: inset 0 0 35px black;
+    //     border-top: 1px solid $blueish-white;
+    //     border-bottom: 1px solid $blueish-white;
+    // }    
     
     .developer{
         height: 100%;
         font-size: 24px;        
         color:$logo-font-color; 
         display: inline-flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
+        padding-bottom: 10px;
         border-right: 1px solid rgba(0,0,0,.2); 
         font-family: 'Pacifico', cursive;
-        background-color:#1C2736;
-        border-right: 1px solid $blueish-white;
+        //border-right: 1px solid $blueish-white; 
+        @include background(1);               
+
+        img{
+            border-radius: 70px;
+        }
     }
 
     .location{
@@ -59,97 +76,13 @@
             border-radius: 100px;
             border: 2px solid #4C4C4C;
         }
-    }                  
-
-    .hamburger-toggle{
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 30px;            
-        height: 30px;            
-        font-size: 25px;
-        align-items: center;
-        justify-content: center;
-        color: #ebffff;
-        background: #2C2C2C;
-        border: 1px solid #ebffff;            
-        display: flex;
-
-        &:hover{
-            cursor: pointer;
-        }
-    }
-
-    .header-menu-sm{
-        top:0;
-        right:0;                                
-        width: 0;           
-        position: absolute;
-        background-color: $blueish-white;     
-        box-shadow: -2px 0 25px rgba(0,0,0,.4);       
-        overflow-x: hidden;
-        color: #4C4C4C;
-        font-weight: bold;        
-        z-index: 1000;
-        -webkit-transition: width .3s linear;
-        -moz-transition: width .3s linear;
-        -o-transition: width .3s linear;
-        transition: width .3s linear;
-
-        &.visible{
-            width: 250px; 
-        }
-
-        .close-tab{
-            border-bottom: 1px solid rgba(0,0,0,.2);
-            font-size: 25px;
-            background-image: -webkit-linear-gradient(#00ECE7,#D0FCF7);
-            background-image: -moz-linear-gradient(#00ECE7,#D0FCF7);
-            background-image: -o-linear-gradient(#00ECE7,#D0FCF7);
-            background-image: linear-gradient(#00ECE7,#D0FCF7);    
-            .close-button{
-                display: inline;
-                padding: 6px 4px;
-
-                &:hover{
-                    cursor: pointer;
-                }
-            }
-        }
-
-        ul{ 
-            margin-top:20px;               
-            list-style-type: none;  
-            padding: 0;         
-            li {
-                display: block;
-                padding: 0 0 50px 30px;
-                height: 40px;
-                font-size: 18px;
-                transition: font-size .3s ease-out;
-                &.selected{
-                    border-bottom: 3px solid -white;
-                }   
-
-                &:hover{
-                    cursor: pointer;
-                    font-size: 20px;
-                }
-
-                a{
-                    text-decoration: none;
-                    color:inherit;
-                }
-            }
-        }
-    }
-         
+    }    
 }
 
 .app-body{
     margin: 0 auto;
     max-width: $app-width;   
-    padding-top: $header-height; 
-    background-color:#1C2736;//#C7DDFF;        
+    padding-top: $header-height;
     min-height: 100%;    
+    @include foreground(.5);
 }

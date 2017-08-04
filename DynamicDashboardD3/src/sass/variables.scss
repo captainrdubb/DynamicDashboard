@@ -2,7 +2,15 @@
 $logo-font-color: #FFAD0F;
 $blueish-white: #ebffff;
 $app-width: 1280px;
-$header-height: 70px;
+$header-height: 150px;
+
+@mixin background($saturation){
+    background-color: rgba(28, 39, 54, $saturation);
+}
+
+@mixin foreground($saturation){
+    background-color: rgba(14.9%, 21.2%, 29%, $saturation);
+}
 
 $lg-width-floor: 950px;
 $sm-width-cieling: 974px;

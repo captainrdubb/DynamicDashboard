@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
 
@@ -11,9 +11,9 @@ import { INavItem } from './shared/interfaces';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {  
-  title = 'Dynamic Dashboard';
+  title = 'J. Rainear Wills';
   logo = '../assets/logo.png';
-  gravatarUrl = 'https://www.gravatar.com/avatar/d170836be1651dc272276351bb49878d?s=100';
+  gravatarUrl = 'https://www.gravatar.com/avatar/d170836be1651dc272276351bb49878d?s=70';
   hamburgerMenuClicked = false;
   selectedNavItem: INavItem;
   navItems = [
@@ -24,8 +24,6 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(private router: Router) { }
-
-  @ViewChild('appHeader') appHeader: ElementRef;
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
@@ -46,8 +44,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  
-
   isSelectedNavItem(id: number) {
     return this.selectedNavItem.id === id;
   }
@@ -57,7 +53,5 @@ export class AppComponent implements OnInit {
     if (this.hamburgerMenuClicked) {
       this.hamburgerMenuClicked = !this.hamburgerMenuClicked;
     }
-  }
-
-  
+  }  
 }

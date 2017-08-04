@@ -1,27 +1,13 @@
 <div class="app-container">
     <div class="shadow-wrapper">
-        <div #appHeader class="app-header">
-            <div class="developer col-sm-2">J. Rainear Wills</div>
-            <!-- <div class="hamburger-toggle" (click)="hamburgerMenuClicked = !hamburgerMenuClicked"><span class="fa fa-bars"></span></div>
-            <div class="header-menu-sm" [style.height.px]="windowHeight" [ngClass]="{'visible': hamburgerMenuClicked }">
-                <div class="close-tab">
-                    <div class="close-button" (click)="hamburgerMenuClicked = !hamburgerMenuClicked">&rsaquo;&rsaquo;</div>
-                </div>
-                <div>
-                    <ul>
-                        <li *ngFor="let item of navItems"><a (click)="selectNavItem(item)" routerLink="{{item.path}}">{{item.name}}</a></li>
-                    </ul>
-                </div>
-            </div> -->
+        <div #appHeader class="app-header">            
+            <div class="developer col-sm-2">
+                <img [src]="gravatarUrl"/>            
+                {{title}}
+            </div>            
         </div>
-        <div class="app-body" [style.height.px]="appBodyHeight">
+        <div class="app-body">
             <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-
-<script>
-    var body = document.getElementsByTagName('body');
-    var text = body[0].innerText;
-    text.match(/(\d{2,3},\s*\d{2,3},\s*\d{2,3})/g)
-</script>

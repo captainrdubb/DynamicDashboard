@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 
 import { EventBusService } from './event-bus.service';
-import { D3Service } from './d3.service';
+import { D3PieFactoryService } from './d3-pie-factory.service';
 import { CensusDataService } from './census-data.service';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { CensusDataService } from './census-data.service';
     CommonModule,
     HttpModule
   ],
-  providers: [EventBusService, D3Service, CensusDataService],
+  providers: [EventBusService, D3PieFactoryService, CensusDataService],
   declarations: []
 })
 export class CoreModule { }

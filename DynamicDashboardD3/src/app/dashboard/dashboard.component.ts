@@ -3,11 +3,10 @@ import { ReplaySubject } from 'rxjs/replaysubject';
 
 import { WidgetModule } from './widget/widget.module';
 
-import { IColumnWidth } from '../shared/interfaces';
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
-import {} from './'
 import { ChartWidgetComponent } from "app/dashboard/widget/chart-widget/chart-widget.component";
+import { IWidgetComponent } from "app/shared/interfaces";
 
 @Component({
   selector: 'dd-dashboard',
@@ -18,10 +17,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     console.log('Dashboard destroyed');
   }
-  widgets = [
+  widgetMetadata = [
     { id: 1, widgetType: "DisplayWidgetComponent" },
-    { id: 2, widgetType: "ChartWidgetComponent" },
-    { id: 3, widgetType: "ChartWidgetComponent" }
+    { id: 2, widgetType: "DisplayWidgetComponent" },
+    { id: 3, widgetType: "ChartWidgetComponent" },
+    { id: 4, widgetType: "ChartWidgetComponent" }
   ];
   @ViewChild('dashboard') dashboard: ElementRef;
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
@@ -36,20 +36,31 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   private loadWidgets(): number {
-    let columnWidth = Math.floor(this.dashboard.nativeElement.clientWidth / this.widgets.length) - 1;
+    let columnWidth = this.packeryDirective.getDefaultColumnWidth(this.dashboard, this.widgetMetadata.length);
     let viewContainers = this.widgetViewContainers.toArray();
-    for (let i = 0; i < this.widgets.length; ++i) {
-      let widget = this.widgets[i];
-      let viewContainerRef = viewContainers[i];
+    // for (let i = 0; i < this.widgetMetadata.length; ++i) {
+    //   let viewContainerRef = viewContainers[i];
+    //   viewContainerRef.clear();
+
+    //   let widgetFactory = this.getComponentFactory(this.widgetMetadata[i].widgetType);
+    //   let componentRef = viewContainerRef.createComponent(widgetFactory);
+    //   let widget = (<IWidgetComponent>componentRef.instance);
+    //   widget.width = columnWidth;
+    //   widget.data = this.getData();
+    //   componentRef.changeDetectorRef.detectChanges();
+    // }
+
+    this.widgetViewContainers.forEach((item:ViewContainerRef, index:number, viewContainers:ViewContainerRef[])=>{
+      let viewContainerRef = viewContainers[index];
       viewContainerRef.clear();
 
-      let widgetFactory = this.getComponentFactory(widget.widgetType);
+      let widgetFactory = this.getComponentFactory(this.widgetMetadata[index].widgetType);
       let componentRef = viewContainerRef.createComponent(widgetFactory);
-      let instance = (<ChartWidgetComponent>componentRef.instance);
-      instance.defaultWidth = columnWidth;
-      instance.data = this.getData();
+      let widget = (<IWidgetComponent>componentRef.instance);
+      widget.width = columnWidth;
+      widget.data = this.getData();
       componentRef.changeDetectorRef.detectChanges();
-    }
+    })
     return columnWidth;
   }
 

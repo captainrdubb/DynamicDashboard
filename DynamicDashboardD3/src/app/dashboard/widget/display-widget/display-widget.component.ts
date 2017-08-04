@@ -1,16 +1,14 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
 
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
-import { IColumnWidth } from '../../../shared/interfaces';
 
 @Component({
   selector: 'dd-display-widget',
   templateUrl: './display-widget.component.html',
   styleUrls: ['./display-widget.component.scss']
 })
-export class DisplayWidgetComponent implements OnInit, AfterViewInit, IColumnWidth {
+export class DisplayWidgetComponent implements AfterViewInit {
   
-  defaultWidth: number;
   width: number;
   editMode = false;
 
@@ -18,11 +16,7 @@ export class DisplayWidgetComponent implements OnInit, AfterViewInit, IColumnWid
   
   @Input() displayHeader;
 
-  @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
-
-  ngOnInit(){
-    this.width = this.defaultWidth;
-  }
+  @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;  
 
   ngAfterViewInit(): void {    
     this.draggabillyDirective.onItemsReady('.dashboard');

@@ -2,20 +2,21 @@
 @import '../../../../sass/variables';
 
 .widget.chart-widget{
-    @extend .widget;  
-    
-    height:400px;
+    @extend .widget;      
+    height:400px;    
 
     .chart-header{
-        color: $blueish-white;
-        font-size: 18px;
-        height: 30px;
-        padding: 5px 0 0 15px;
+        background-color: $blueish-white;
+        color: #1C2736;        
+        font-size: 20px;
+        font-weight: bold;
+        height: 32px;
+        padding-left: 20px;
         cursor: default;
     }
 
     .chart{
-        height: 85%;
+        height: 86%;
         width: 100%;
         
         /deep/ path.arc{

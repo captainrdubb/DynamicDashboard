@@ -1,11 +1,7 @@
 @import '../widget.shared';
 @import '../../../../sass/variables';
 
-$local-widget-height: 400px;
-$local-header-height: 30px;
 $local-body-height: 330px;
-$local-icon-tray-height: 45px;
-$padding-top-bottom: 10px;
 
 @mixin placeholderStyling($textAlign, $lineHeight){
     text-align: $textAlign;
@@ -31,13 +27,11 @@ $padding-top-bottom: 10px;
 
 .display-widget{
     @extend .widget;
-    height:400px;
-    width: 300px;
+    height:400px;    
 
     .display-header{
-        padding: 0 15px; 
-        display:block;
-        width:100%;
+        padding: 0 15px;
+        width: 100%;
         background-color: $logo-font-color;
 
         .note-title{            
@@ -79,7 +73,7 @@ $padding-top-bottom: 10px;
     }    
 
     .icon-tray{
-        height: $local-icon-tray-height;
+        height: 45px;
         padding: 0 15px;
         height: 30px;        
         width: 100%;

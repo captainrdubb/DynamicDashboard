@@ -1,8 +1,11 @@
+@import '../../../sass/variables.scss';
+
 .widget{
     position: relative;
-    background-color: rgba(0,0,0,0.2);
+    @include background(1);
+    box-shadow: 2px 2px 20px black;
     &.is-dragging, &.is-positioning-post-drag {
-        background-color: rgba(0,0,0,0.4);
+        @include background(.6);
         z-index: 10;
     }
 }
