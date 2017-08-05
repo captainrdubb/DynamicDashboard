@@ -71,7 +71,7 @@ export class D3PieFactoryService {
 
   private addGroup(svg: any, chartWidth: number, chartHeight: number) {
     var group = svg.append("g");
-    group.attr("transform", "translate(" + (chartWidth / 2) + ',' + (chartHeight / 2) + ')')
+    group.attr("transform", `translate(${chartWidth / 2},${chartHeight / 2})`);
     return group;
   }
 
