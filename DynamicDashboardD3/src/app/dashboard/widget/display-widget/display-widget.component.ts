@@ -1,15 +1,18 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
 
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
+import { IWidgetComponent } from "app/shared/interfaces";
 
 @Component({
   selector: 'dd-display-widget',
   templateUrl: './display-widget.component.html',
   styleUrls: ['./display-widget.component.scss']
 })
-export class DisplayWidgetComponent implements AfterViewInit {
+export class DisplayWidgetComponent implements AfterViewInit, IWidgetComponent {
   
-  width: number;
+  chartType: string;
+  data: string[][];
+  columnWidth: number;
   editMode = false;
 
   constructor() { }

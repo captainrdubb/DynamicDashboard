@@ -5,8 +5,8 @@ import { WidgetModule } from './widget/widget.module';
 
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
-import { ChartWidgetComponent } from "app/dashboard/widget/chart-widget/chart-widget.component";
-import { IWidgetComponent } from "app/shared/interfaces";
+import { ChartWidgetComponent } from "./widget/chart-widget/chart-widget.component";
+import { IWidgetComponent, IPackerySizes } from '../shared/interfaces';
 
 @Component({
   selector: 'dd-dashboard',
@@ -18,10 +18,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     console.log('Dashboard destroyed');
   }
   widgetMetadata = [
-    { id: 1, widgetType: "DisplayWidgetComponent" },
-    { id: 2, widgetType: "DisplayWidgetComponent" },
-    { id: 3, widgetType: "ChartWidgetComponent" },
-    { id: 4, widgetType: "ChartWidgetComponent" }
+    { id: 1, widgetType: "DisplayWidgetComponent", chartType:null, columnWidth: "singleWidth" },
+    { id: 2, widgetType: "DisplayWidgetComponent", chartType:null, columnWidth: "doubleWidth" },
+    { id: 3, widgetType: "ChartWidgetComponent", chartType:'pieChart', columnWidth: "singleWidth" },
+    { id: 4, widgetType: "HealthCareWidgetComponent", chartType:null, columnWidth: "doubleWidth" }
   ];
   @ViewChild('dashboard') dashboard: ElementRef;
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
@@ -31,12 +31,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngAfterViewInit(): void {
-    let columnWidth = this.loadWidgets();
-    this.packeryDirective.onItemsReady('.widget', columnWidth);
+    let packerySizes = this.loadWidgets();
+    this.packeryDirective.onItemsReady('.widget', packerySizes.singleWidth);
   }
 
-  private loadWidgets(): number {
-    let columnWidth = this.packeryDirective.getDefaultColumnWidth(this.dashboard, this.widgetMetadata.length);
+  private loadWidgets(): IPackerySizes {
+    let packerySizes = this.packeryDirective.getPackyerColmunWidths(this.dashboard, this.widgetMetadata.length);
     let viewContainers = this.widgetViewContainers.toArray();
     // for (let i = 0; i < this.widgetMetadata.length; ++i) {
     //   let viewContainerRef = viewContainers[i];
@@ -57,11 +57,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       let widgetFactory = this.getComponentFactory(this.widgetMetadata[index].widgetType);
       let componentRef = viewContainerRef.createComponent(widgetFactory);
       let widget = (<IWidgetComponent>componentRef.instance);
-      widget.width = columnWidth;
+      widget.columnWidth = packerySizes[this.widgetMetadata[index].columnWidth];
+      widget.chartType = this.widgetMetadata[index].chartType;
       widget.data = this.getData();
       componentRef.changeDetectorRef.detectChanges();
     })
-    return columnWidth;
+    return packerySizes;
   }
 
   private getComponentFactory(widgetComponentKey: string) {

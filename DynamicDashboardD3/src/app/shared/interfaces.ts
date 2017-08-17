@@ -4,7 +4,14 @@ export interface INavItem {
     path: string;
 }
 
-export interface IWidgetComponent{
-    width:number
-    data:string[][]
+export interface IWidgetComponent {
+    columnWidth: number;
+    data: string[][];
+    chartType: string;
+}
+
+export interface IPackerySizes {
+    singleWidth: number;
+    doubleWidth: number;
+    fullWidth: number;
 }

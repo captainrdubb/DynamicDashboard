@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { WidgetHostDirective } from './widget-host.directive';
 import { DisplayWidgetComponent } from './display-widget/display-widget.component';
 import { ChartWidgetComponent } from './chart-widget/chart-widget.component';
+import { HealthCareWidgetComponent } from './healthcare-widget/healthcare-widget.component';
 
 @NgModule({
   imports: [
@@ -15,12 +16,13 @@ import { ChartWidgetComponent } from './chart-widget/chart-widget.component';
   exports: [
     WidgetHostDirective
   ],
-  declarations: [WidgetHostDirective, DisplayWidgetComponent, ChartWidgetComponent],
-  entryComponents: [DisplayWidgetComponent, ChartWidgetComponent]
+  declarations: [WidgetHostDirective, DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent],
+  entryComponents: [DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent]
 })
 export class WidgetModule {
   static WidgetComponents: { [key: string]: Type<{}> } = {
     "DisplayWidgetComponent": DisplayWidgetComponent,
-    "ChartWidgetComponent": ChartWidgetComponent
+    "ChartWidgetComponent": ChartWidgetComponent,
+    "HealthCareWidgetComponent": HealthCareWidgetComponent
   }
 }

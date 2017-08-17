@@ -1,9 +1,15 @@
 @import '../widget.shared';
 @import '../../../../sass/variables';
 
-.widget.chart-widget{
+.widget.healthcare-widget{
     @extend .widget;      
     height:400px;    
+
+    .graphics-container{
+        width:100%;
+        display: inline-flex;
+        justify-content: center;
+    }
 
     .chart-header{
         background-color: $blueish-white;
@@ -15,11 +21,11 @@
         cursor: default;
     }
 
-    .chart{
-        position: absolute;
-        bottom: 10;
+    .graphic{
+        height: 258px;
+        margin: 10px 0;
         height: 86%;
-        width: 100%;
+        width: 50%;
         
         /deep/ path.arc{
             &:hover{                

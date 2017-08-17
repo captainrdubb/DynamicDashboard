@@ -4,6 +4,7 @@ import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
 
 import { EventBusService } from '../core/event-bus.service';
+import { IPackerySizes } from "app/shared/interfaces";
 
 @Directive({
   selector: '[dd-packery]',
@@ -23,14 +24,19 @@ export class PackeryDirective implements OnDestroy {
       .subscribe((draggabilly: Draggabilly) => this.setDraggabillyEvents(draggabilly));
   }
 
-  public getDefaultColumnWidth(container:ElementRef, itemsCount:number){
+  public getPackyerColmunWidths(container: ElementRef, itemsCount: number): IPackerySizes {
     let rowSize = Math.min(3, itemsCount);
     let computedStyle = window.getComputedStyle(container.nativeElement);
     let dashboardPadding = parseFloat(computedStyle.getPropertyValue('padding'));
     let dashboardWidth = parseFloat(computedStyle.getPropertyValue("width"));
     let defaultColumnWidth = Math.ceil(dashboardWidth / rowSize - dashboardPadding * 2);
     this.gutter = Math.floor((dashboardWidth - defaultColumnWidth * rowSize - dashboardPadding * 2) / (rowSize - 1));
-    return defaultColumnWidth;
+    let packerySizes: IPackerySizes = {
+      singleWidth: defaultColumnWidth,
+      doubleWidth: defaultColumnWidth * 2 + this.gutter,
+      fullWidth: defaultColumnWidth * 3 + this.gutter * 2
+    }
+    return packerySizes;
   }
 
   private initializePackery(itemSelector: string, columnWidth: number) {
