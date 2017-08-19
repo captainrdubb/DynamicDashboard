@@ -7,6 +7,7 @@ import { WidgetHostDirective } from './widget-host.directive';
 import { DisplayWidgetComponent } from './display-widget/display-widget.component';
 import { ChartWidgetComponent } from './chart-widget/chart-widget.component';
 import { HealthCareWidgetComponent } from './healthcare-widget/healthcare-widget.component';
+import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { HealthCareWidgetComponent } from './healthcare-widget/healthcare-widget
   exports: [
     WidgetHostDirective
   ],
-  declarations: [WidgetHostDirective, DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent],
+  declarations: [WidgetHostDirective, DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent, ChatWidgetComponent],
   entryComponents: [DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent]
 })
 export class WidgetModule {

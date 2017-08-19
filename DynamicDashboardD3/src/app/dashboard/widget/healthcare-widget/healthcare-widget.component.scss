@@ -25,21 +25,12 @@
         height: 258px;
         margin: 10px 0;
         height: 86%;
-        width: 50%;
         
-        /deep/ path.arc{
-            &:hover{                
-                fill-opacity: .3;                
-            }
-            &.selected{
-                stroke:$blueish-white;
-                stroke-width: 4px;
-            }
-        }
-
-        /deep/ text{
-            cursor: default;
-            fill:$blueish-white;
-        }
+       &.male{
+           width:45%;
+       }
+       &.female{
+           width:55%;
+       }       
     }    
 }

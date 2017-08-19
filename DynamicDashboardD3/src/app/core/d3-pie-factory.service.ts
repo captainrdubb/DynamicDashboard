@@ -14,7 +14,7 @@ export class D3PieFactoryService {
   createPieChart(svg: ElementRef, data: string[][], datumIndex: number, labelIndex: number, selectionCallback: (path: any, $event: Event) => void): void {
     var chartWidth = +(svg.nativeElement.clientWidth);
     var chartHeight = +(svg.nativeElement.clientHeight);
-    var radius = Math.min(chartWidth, chartHeight) / 2 - 3;
+    var radius = Math.min(chartWidth, chartHeight) / 2 - 10;
 
     let d3Svg = d3.select(svg.nativeElement);
 
