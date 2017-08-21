@@ -19,7 +19,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
   widgetMetadata = [
     { id: 1, widgetType: "DisplayWidgetComponent", chartType:null, columnWidth: "singleWidth" },
-    { id: 2, widgetType: "DisplayWidgetComponent", chartType:null, columnWidth: "doubleWidth" },
+    { id: 2, widgetType: "ChatWidgetComponent", chartType:null, columnWidth: "doubleWidth" },
     { id: 3, widgetType: "ChartWidgetComponent", chartType:'pieChart', columnWidth: "singleWidth" },
     { id: 4, widgetType: "HealthCareWidgetComponent", chartType:null, columnWidth: "doubleWidth" }
   ];

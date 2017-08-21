@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-widget.component.scss']
 })
 export class ChatWidgetComponent implements OnInit {
-
+  
+  chatHeader:string = 'Messanger';
+  
   constructor() { }
 
   ngOnInit() {

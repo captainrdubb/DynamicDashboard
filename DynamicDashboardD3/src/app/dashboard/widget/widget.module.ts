@@ -18,12 +18,13 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     WidgetHostDirective
   ],
   declarations: [WidgetHostDirective, DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent, ChatWidgetComponent],
-  entryComponents: [DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent]
+  entryComponents: [DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent, ChatWidgetComponent]
 })
 export class WidgetModule {
   static WidgetComponents: { [key: string]: Type<{}> } = {
     "DisplayWidgetComponent": DisplayWidgetComponent,
     "ChartWidgetComponent": ChartWidgetComponent,
-    "HealthCareWidgetComponent": HealthCareWidgetComponent
+    "HealthCareWidgetComponent": HealthCareWidgetComponent,
+    "ChatWidgetComponent": ChatWidgetComponent
   }
 }

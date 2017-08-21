@@ -1,3 +1,11 @@
-<p>
-  chat-widget works!
-</p>
+<div dd-draggabilly class="widget chat-widget" [style.width.px]="columnWidth">
+  <div class="chat-header">{{chatHeader}}</div>
+  <!-- <div *ngFor="let message of messages" [ngClass]="'self':m.isFromSelf,'other':!m.isFromSelf"></div> -->
+  <div class="friends-window"></div>
+  <div class="chat-window">
+      <p class="message self"><b>Joel Wills</b> <span>10:00am</span><br/>Today I went to a Greek festival with my wife Becky, my children, Honovi and Rani, and
+      my frends OJ and Viverito. It was a lot of fun.</p>
+    <p class="message"><b>Becky</b><br/>Hey maaaan how goes it?</p>
+  </div>
+  <div class="chat-controls"></div>
+</div>

@@ -1,0 +1,81 @@
+@import '../widget.shared';
+@import '../../../../sass/variables';
+
+.widget.chat-widget{
+    @extend .widget;      
+    height:400px;   
+
+    .chat-header{
+        background-color: #bffff8   ;
+        color: #1C2736;        
+        font-size: 18px;
+        font-weight: bold;
+        height: 32px;
+        padding: 3px 20px;
+        cursor: default;
+    }
+
+    .friends-window{
+        height: 300px;
+        width:150px;
+        display: inline-block;
+        background-color: #97ffcb;        
+    }
+
+    .chat-window{
+        display: inline-block;
+        width:calc(100% - 150px);
+        max-width: calc(100% - 160px);
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;   
+
+        .message{   
+            position: relative;     
+            background-color: #84e0d6;
+            word-break: break-word;
+            line-height: 30px;
+            min-height: 50px;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            width: 60%;
+            max-width: 80%;
+            border-radius: 5px;
+            float: right;
+            color: 1c2736;  
+            &:not(.self)::after{
+                content: "";
+                width: 0;
+                height: 0;
+                border-bottom: 25px solid transparent;
+                border-right: 20px solid #84e0d6;
+                position: absolute;
+                top: 0;
+                left: -15px;
+            }        
+            
+            &.self{
+                float: left;
+                background-color: #e6a6d0;    
+                &::after{
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    border-top: 25px solid transparent;
+                    border-left: 20px solid #e6a6d0;
+                    position: absolute;
+                    bottom: 0;
+                    right: -15px;
+                }        
+            }
+        }        
+    }
+
+    .chat-controls{
+        width: 100%;
+        height: 100px;
+        border-top: 1px solid white;
+        float:bottom;
+    }
+}
