@@ -4,12 +4,10 @@ import { RouterModule, Routes, PreloadingStrategy, PreloadAllModules } from '@an
 import { AppComponent } from './app.component';
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', loadChildren: 'app/home/home.module#HomeModule' },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
-    { path: 'grid', loadChildren: 'app/grid/grid.module#GridModule' },
-    { path: 'messaging', loadChildren: 'app/messaging/messaging.module#MessagingModule' },
-    { path: '**', redirectTo: 'home' }
+    { path: 'about', loadChildren: 'app/about/about.module#AboutModule' },
+    { path: '**', redirectTo: 'dashboard' }
 ];
 
 @NgModule({

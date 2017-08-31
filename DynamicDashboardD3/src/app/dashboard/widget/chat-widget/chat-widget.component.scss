@@ -2,15 +2,15 @@
 @import '../../../../sass/variables';
 
 $header-height:32px;
-$input-height:100px;
+$footer-height:50px;
 
 .widget.chat-widget{
     @extend .widget;      
     height:400px;   
 
     .chat-header{
-        background-color: black   ;
-        color: #bffff8;        
+        background-color: #5EB383   ;
+        color: #1c2736;        
         font-size: 18px;
         font-weight: bold;
         height: $header-height;
@@ -19,7 +19,7 @@ $input-height:100px;
     }
 
     .chat-container{
-        height: 400px - $header-height - $input-height;
+        height: 400px - $header-height - $footer-height;
         width: 100%;
         display: flex;
 
@@ -27,7 +27,7 @@ $input-height:100px;
             height: 100%;
             width:150px;
             display: inline-block;
-            background-color: #97ffcb;        
+            background-color: #84e0d6;        
         }
     
         .chat-window{
@@ -50,6 +50,8 @@ $input-height:100px;
                 border-radius: 5px;
                 float: right;
                 color: 1c2736;  
+                white-space: pre-wrap;
+            
                 &:not(.self)::after{
                     content: "";
                     width: 0;
@@ -75,32 +77,41 @@ $input-height:100px;
                         right: -15px;
                     }        
                 }
+
+                .time-stamp{
+                    font-size: 14px;
+                }   
             }        
         }
     }
 
     .chat-footer{
         width: 100%;
-        height: $input-height;
-        border-top: 1px solid white;        
-        display: block;
-
+        height: $footer-height;
+        display: flex;  
+        border-top: 1px solid black;    
+        
         .send-button{
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            border-radius: 10px 0 0 10px;
+            width: 60px;
+            line-height: $footer-height - 2px;
+            text-align: center;
+            background: linear-gradient(to bottom, #7a70ca, #5f5998);
+            border: 1px solid #554ca9;
+            display: inline-block;
         }
 
-        .chat-input{
+        .message-input{
+            position: relative;
+            width: calc(100% - 60px);
+            max-height: initial;
+            border: 0;                        
+            background-color: #ffffff;
+            padding: 5px 0 0 5px;
+            overflow-y: auto;
 
-        }
-
-        .emoji-button{
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            border-radius: 0 10px 10px 0;            
+            &:active{
+                border: none;
+            }
         }
     }
 }

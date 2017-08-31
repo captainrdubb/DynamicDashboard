@@ -15,3 +15,11 @@ export interface IPackerySizes {
     doubleWidth: number;
     fullWidth: number;
 }
+
+export interface Message {
+    fromId: number;
+    from: string;
+    to: string;
+    timeStamp: string;
+    message: string;
+}

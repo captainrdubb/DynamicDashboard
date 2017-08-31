@@ -2,15 +2,12 @@
   <div class="chat-header">{{chatHeader}}</div>
   <div class="chat-container">
     <div class="friends-window"></div>
-    <div class="chat-window">
-      <p class="message self"><b>Joel Wills</b> <span>10:00am</span><br/>Today I went to a Greek festival with my wife Becky, my children, Honovi and
-        Rani, and my frends OJ and Viverito. It was a lot of fun.</p>
-      <p class="message"><b>Becky Wills</b> <span>10:05am</span><br/>Hey maaaan how goes it?</p>
-      <p class="message self"><b>Joel Wills</b> <span>10:10am</span><br/>Did you read my first message?</p>
-      <p class="message"><b>Becky Wills</b> <span>10:06am</span><br/>yes...</p>
+    <div #chatWindow class="chat-window">
+      <p *ngFor="let m of messages" class="message" [ngClass]="{'self':(m.fromId % userId) === 0}"><b>{{m.from}}</b> <span class="time-stamp">{{m.timeStamp | date:'shortTime'}}</span><br/>{{m.message}}</p>
     </div>
   </div>
   <div class="chat-footer">
-    <button class="send-button">send</button><input class="chat-input" type="text"/><button class="emoji-button fa fa-smile-o"></button>
-  </div>  
+    <div (click)="sendMessage()" class="send-button">Send</div>
+    <div contenteditable="true" (keydown)="onKeyDown($event)" #messageInput class="message-input" type="text"></div>
+  </div>
 </div>

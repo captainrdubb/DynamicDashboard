@@ -1,10 +1,14 @@
 <div class="app-container">
     <div class="shadow-wrapper">
-        <div #appHeader class="app-header">            
+        <div #appHeader class="app-header row">            
             <div class="developer col-sm-2">
                 <img [src]="gravatarUrl"/>            
                 {{title}}
-            </div>            
+            </div>   
+            <div class="navigation col-sm-10">  
+                    <div class="link" routerLink="/dashboard" routerLinkActive="active">Dashboard</div>
+                    <div class="link" routerLink="/about" routerLinkActive="active">About</div>
+            </div>         
         </div>
         <div class="app-body">
             <router-outlet></router-outlet>

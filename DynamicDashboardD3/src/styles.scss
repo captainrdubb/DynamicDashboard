@@ -15,7 +15,6 @@ html body{
 .packery-drop-placeholder {
     outline: 3px dashed #9C9C9C;
     outline-offset: -6px;
-    /* transition position changing */
     -webkit-transition: -webkit-transform 0.2s;
     transition: transform 0.2s;
 }
