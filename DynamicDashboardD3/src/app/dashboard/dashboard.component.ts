@@ -1,12 +1,8 @@
+import { Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked } from '@angular/core';
 import { IWidgetParams, IWidgetMenuItem } from './../shared/interfaces';
-import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ElementRef, Type } from '@angular/core';
-import { ReplaySubject } from 'rxjs/replaysubject';
-
 import { WidgetModule } from './widget/widget.module';
-
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
-import { ChartWidgetComponent } from "./widget/chart-widget/chart-widget.component";
 import { IWidgetComponent, IPackerySizes } from '../shared/interfaces';
 
 @Component({
@@ -14,13 +10,22 @@ import { IWidgetComponent, IPackerySizes } from '../shared/interfaces';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, AfterViewChecked {
+  ngAfterViewChecked(): void {
+    if(this.widgetViewContainers.length > this.lastNoViewContainers){
+      this.lastNoViewContainers = this.widgetViewContainers.length;
+      let widgetParams = this.savedWidgetParams[this.savedWidgetParams.length -1];
+      let viewContainerRef = this.widgetViewContainers.last;
+      this.addWidget(viewContainerRef, widgetParams);
+    }
+  }
 
   @ViewChild('dashboard') dashboard: ElementRef;
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
   packerySizes: IPackerySizes;
+  lastNoViewContainers: number;
 
   menuItems = [
     { display: 'Indicator', widgetParams: { ordinal: 1, widgetName: 'HealthCareWidgetComponent', dataParams: null } },
@@ -44,6 +49,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private loadWidgets(): void {
+    this.lastNoViewContainers = this.widgetViewContainers.length;
     this.packerySizes = this.packeryDirective.getPackyerColmunWidths(this.dashboard, this.savedWidgetParams.length);
     this.widgetViewContainers.forEach((item: ViewContainerRef, index: number, viewContainers: ViewContainerRef[]) => {
       let viewContainerRef = viewContainers[index];
@@ -54,9 +60,8 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   onMenuItemClicked(menuItem: IWidgetMenuItem) {
-    this.savedWidgetParams.push(menuItem.widgetParams);
-    let viewContainerRef = this.widgetViewContainers[this.savedWidgetParams.length - 1];
-    this.addWidget(viewContainerRef, menuItem.widgetParams);
+    console.log(`# Containers Before Click: ${this.widgetViewContainers.length}`);
+    this.savedWidgetParams.push(menuItem.widgetParams);    
   }
 
   addWidget(viewContainerRef: ViewContainerRef, savedWidget: IWidgetParams) {
