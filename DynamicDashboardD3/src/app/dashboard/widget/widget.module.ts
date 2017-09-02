@@ -1,3 +1,4 @@
+import { IWidgetMetadata } from './../../shared/interfaces';
 import { NgModule, Component, Type } from '@angular/core';
 
 import { SharedModule } from 'app/shared/shared.module';
@@ -21,10 +22,10 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
   entryComponents: [DisplayWidgetComponent, ChartWidgetComponent, HealthCareWidgetComponent, ChatWidgetComponent]
 })
 export class WidgetModule {
-  static WidgetComponents: { [key: string]: Type<{}> } = {
-    "DisplayWidgetComponent": DisplayWidgetComponent,
-    "ChartWidgetComponent": ChartWidgetComponent,
-    "HealthCareWidgetComponent": HealthCareWidgetComponent,
-    "ChatWidgetComponent": ChatWidgetComponent
+  static WidgetMetadata: { [key: string]: IWidgetMetadata } = {
+    "DisplayWidgetComponent": { type: DisplayWidgetComponent, size: 'singleWidth' },
+    "ChartWidgetComponent": { type: ChartWidgetComponent, size: 'singleWidth' },
+    "HealthCareWidgetComponent": { type: HealthCareWidgetComponent, size: 'doubleWidth' },
+    "ChatWidgetComponent": { type: ChatWidgetComponent, size: 'doubleWidth' }
   }
 }

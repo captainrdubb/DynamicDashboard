@@ -1,5 +1,11 @@
 @import '../../sass/variables.scss';
 
+@mixin menuContent($fontSize){
+    font-size: $fontSize;
+    color: white;
+    padding: 20px 10px 10px 40px;
+}
+
 .dashboard-container{
 
     &.row{
@@ -10,6 +16,22 @@
         @include background(1);
         border-right: 1px solid rgba(0,0,0,.5);      
         min-height: 100%;
+        padding:0;
+
+        .menu-title{
+            margin-top:30px;
+            @include menuContent(1.5em);
+            border-bottom: 1px solid rgba(0,0,0,.1);      
+        }
+
+        .menu-item{
+            @include menuContent(1.15em);
+
+            &:hover{
+                background-color: lighten($background-base, 15%);
+                cursor: pointer;
+            }
+        }
     }
 
     .dashboard{

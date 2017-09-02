@@ -3,6 +3,7 @@ $logo-font-color: #FFAD0F;
 $blueish-white: #ebffff;
 $app-width: 1280px;
 $header-height: 150px;
+$background-base: rgb(28, 39, 54);
 
 @mixin background($saturation){
     background-color: rgba(28, 39, 54, $saturation);

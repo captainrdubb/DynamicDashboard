@@ -1,8 +1,14 @@
 <div class="dashboard-container row">
   <div class="side-bar col-sm-2">
+    <div class="menu-title">Widgets</div>        
+    <div class="menu-item" *ngFor="let item of menuItems" (click)="onMenuItemClicked(item)">{{item.display}}</div>
+    <!-- <div class="menu-item">Indicator</div>
+    <div class="menu-item">Messanger</div>
+    <div class="menu-item">Note</div>
+    <div class="menu-item">Pie Chart</div> -->
   </div>
   <div #dashboard class="dashboard col-sm-10" dd-packery>
-    <ng-template ngFor let-widget [ngForOf]="widgetMetadata">
+    <ng-template ngFor let-widget [ngForOf]="savedWidgetParams">
       <widget-host></widget-host>
     </ng-template>
   </div>

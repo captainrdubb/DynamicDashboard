@@ -24,12 +24,8 @@ export class ChartWidgetComponent implements AfterViewInit, IWidgetComponent {
   @ViewChild('chartWidget') chartWidget: ElementRef;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
-  ngAfterViewInit(): void {
-    switch (this.chartType) {
-      case 'pieChart':
-      default:
-        this.createPieChart();        
-    }
+  ngAfterViewInit(): void {  
+    this.createPieChart();            
     this.draggabillyDirective.onItemsReady('.dashboard');
   }
 
