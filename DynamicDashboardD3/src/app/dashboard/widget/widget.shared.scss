@@ -9,3 +9,15 @@
         z-index: 10;
     }
 }
+
+.widget-header-tray{
+    position: relative;
+
+    .header-tray{
+        font-size: 1.5rem;
+        position: absolute;
+        right: 10px;
+        top: .2rem;
+        color: background(1);
+    }
+}

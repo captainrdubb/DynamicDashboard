@@ -1,6 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Message } from "../../../shared/interfaces";
-import { DraggabillyDirective } from "app/shared/draggabilly.directive";
+import { IWidgetComponent } from 'app/shared/interfaces';
+import {
+  Component, OnInit, ElementRef, ViewChild, AfterViewInit,
+  ViewRef, ViewContainerRef, TemplateRef, Output, EventEmitter
+} from '@angular/core';
+import { Message } from '../../../shared/interfaces';
+import { DraggabillyDirective } from 'app/shared/draggabilly.directive';
 
 
 @Component({
@@ -8,17 +12,22 @@ import { DraggabillyDirective } from "app/shared/draggabilly.directive";
   templateUrl: './chat-widget.component.html',
   styleUrls: ['./chat-widget.component.scss']
 })
-export class ChatWidgetComponent implements OnInit, AfterViewInit {
+export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetComponent {
+
+  destroy: () => void;
+  columnWidth: number;
+  data: string[][];
 
   userId = 1;
-  private lastId = 1;
   messages: Message[];
-  chatHeader: string = 'Messanger';
+  chatHeader = 'Messanger';
   @ViewChild('messageInput') messageInput: ElementRef;
   @ViewChild('chatWindow') chatWindow: ElementRef;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
+  @Output() removeMe: EventEmitter<ViewContainerRef> = new EventEmitter();
+  private lastId = 1;
 
-  constructor() {
+  constructor(private viewContainerRef: ViewContainerRef) {
   }
 
   ngOnInit() {
@@ -28,14 +37,15 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit {
         fromId: this.lastId++,
         from: 'Joel Wills',
         to: 'Becky Wills',
-        message: 'Today I went to a Greek festival with my wife Becky, my children, Honovi and Rani, and my frends OJ and Viverito. It was a lot of fun.',
+        message: 'Today I went to a Greek festival with my wife Becky, ' +
+        'my children, Honovi and Rani, and my frends OJ and Viverito. It was a lot of fun.',
         timeStamp: '8/23/2017 12:30:48 PM UTC'
       }
     ];
   }
 
   ngAfterViewInit() {
-      this.draggabillyDirective.onItemsReady('.dashboard');
+    this.draggabillyDirective.onItemsReady('.dashboard');
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -50,10 +60,14 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onTrashClick() {
+    this.removeMe.emit(this.viewContainerRef);
+  }
+
   sendMessage(text: string) {
     const date = new Date();
     if (text) {
-      let message = {
+      const message = {
         fromId: this.lastId++,
         from: 'Becky Wills',
         to: 'Joel Wills',
@@ -62,5 +76,9 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit {
       }
       this.messages.push(message);
     }
+  }
+
+  onDestroyClick() {
+    this.destroy();
   }
 }

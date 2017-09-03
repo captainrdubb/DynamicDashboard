@@ -9,7 +9,7 @@ export interface INavItem {
 export interface IWidgetComponent {
     columnWidth: number;
     data: string[][];
-    chartType: string;
+    destroy: () => void;
 }
 
 export interface IPackerySizes {

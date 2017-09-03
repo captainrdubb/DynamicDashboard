@@ -1,6 +1,7 @@
 <div class="widget display-widget" dd-draggabilly [style.width.px]="columnWidth">
   <div class="display-header">
-    <input class="note-title" type="text" placeholder="Title" [disabled]="!editMode" value="To Do"/>    
+    <input class="note-title" type="text" placeholder="Title" [disabled]="!editMode" value="To Do"/>  
+    <span (click)="onDestroyClick()" class="fa fa-trash header-tray"></span>  
   </div>
   <div class="note-body">
     <textarea placeholder="Body" [disabled]="!editMode" >

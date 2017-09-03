@@ -23,9 +23,9 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 })
 export class WidgetModule {
   static WidgetMetadata: { [key: string]: IWidgetMetadata } = {
-    "DisplayWidgetComponent": { type: DisplayWidgetComponent, size: 'singleWidth' },
-    "ChartWidgetComponent": { type: ChartWidgetComponent, size: 'singleWidth' },
-    "HealthCareWidgetComponent": { type: HealthCareWidgetComponent, size: 'doubleWidth' },
-    "ChatWidgetComponent": { type: ChatWidgetComponent, size: 'doubleWidth' }
+    'DisplayWidgetComponent': { type: DisplayWidgetComponent, size: 'singleWidth' },
+    'ChartWidgetComponent': { type: ChartWidgetComponent, size: 'singleWidth' },
+    'HealthCareWidgetComponent': { type: HealthCareWidgetComponent, size: 'doubleWidth' },
+    'ChatWidgetComponent': { type: ChatWidgetComponent, size: 'doubleWidth' }
   }
 }

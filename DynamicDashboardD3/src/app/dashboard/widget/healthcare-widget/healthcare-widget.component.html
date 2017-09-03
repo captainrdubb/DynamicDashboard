@@ -1,5 +1,7 @@
 <div dd-draggabilly class="widget healthcare-widget" [style.width.px]="columnWidth">
-  <div class="chart-header">{{chartHeader}}</div>
+  <div class="chart-header">{{chartHeader}}
+    <span (click)="onDestroyClick()" class="fa fa-trash header-tray"></span>
+  </div>
   <div class="graphics-container">
     <svg #maleGraphic class="graphic male"></svg>
     <svg #femaleGraphic class="graphic female"></svg>

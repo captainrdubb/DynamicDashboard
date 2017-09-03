@@ -1,5 +1,7 @@
 <div dd-draggabilly class="widget chat-widget" [style.width.px]="columnWidth">
-  <div class="chat-header">{{chatHeader}}</div>
+  <div class="chat-header">{{chatHeader}}
+    <span (click)="onDestroyClick()" class="fa fa-trash header-tray"></span>
+  </div>
   <div class="chat-container">
     <div class="friends-window"></div>
     <div #chatWindow class="chat-window">

@@ -33,6 +33,7 @@ $local-body-height: 330px;
         padding: 0 15px;
         width: 100%;
         background-color: $logo-font-color;
+        @extend .widget-header-tray;
 
         .note-title{            
             width:100%;

@@ -19,6 +19,8 @@
         height: 32px;
         padding-left: 20px;
         cursor: default;
+
+        @extend .widget-header-tray;
     }
 
     .graphic{

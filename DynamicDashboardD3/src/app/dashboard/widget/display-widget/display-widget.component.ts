@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
-
+import { IWidgetComponent } from './../../../shared/interfaces';
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
-import { IWidgetComponent } from "app/shared/interfaces";
+
 
 @Component({
   selector: 'dd-display-widget',
@@ -9,28 +9,31 @@ import { IWidgetComponent } from "app/shared/interfaces";
   styleUrls: ['./display-widget.component.scss']
 })
 export class DisplayWidgetComponent implements AfterViewInit, IWidgetComponent {
-  
+
+  editMode = false;
   chartType: string;
   data: string[][];
   columnWidth: number;
-  editMode = false;
+  destroy: () => void;
+  @Input() displayHeader;
+  @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
   constructor() { }
-  
-  @Input() displayHeader;
 
-  @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;  
-
-  ngAfterViewInit(): void {    
+  ngAfterViewInit(): void {
     this.draggabillyDirective.onItemsReady('.dashboard');
   }
 
-  toggleEditMode(){
+  toggleEditMode() {
     this.editMode = !this.editMode;
-    if(this.editMode){
+    if (this.editMode) {
       this.draggabillyDirective.disable();
-    }else{
+    } else {
       this.draggabillyDirective.enable();
     }
+  }
+
+  onDestroyClick() {
+    this.destroy();
   }
 }

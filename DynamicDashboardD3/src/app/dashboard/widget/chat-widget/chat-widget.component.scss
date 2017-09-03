@@ -16,6 +16,8 @@ $footer-height:50px;
         height: $header-height;
         padding: 3px 20px;
         cursor: default;
+
+        @extend .widget-header-tray;
     }
 
     .chat-container{

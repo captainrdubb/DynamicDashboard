@@ -65,7 +65,7 @@ $nav-marker-size: 20px;
 
             &::before{
                 transition: opacity .2s ease-in-out;
-                opacity: 0;
+                opacity: .1;
                 content: "";
                 height: 0;
                 width: 0;
@@ -77,7 +77,7 @@ $nav-marker-size: 20px;
 
             &::after{                
                 transition: opacity .2s ease-in-out;
-                opacity: 0;
+                opacity: .1;
                 content: "";
                 height: 0;
                 width: 0;
