@@ -1,4 +1,4 @@
-import { IWidgetComponent, IPosition } from './interfaces';
+import { IWidgetComponent, IPosition, IPositionParam } from './interfaces';
 import { Directive, ViewContainerRef, OnDestroy, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/subscription';
 import * as Packery from 'packery';
@@ -20,8 +20,8 @@ export class PackeryDirective implements OnDestroy {
   constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) {
   }
 
-  public onItemsReady(itemSelector: string, columnWidth: number) {
-    this.initializePackery(itemSelector, columnWidth);
+  public onItemsReady(itemSelector: string, columnWidth: number, positionParams: IPositionParam[]) {
+    this.initializePackery(itemSelector, columnWidth, positionParams);
     this.draggabillySubscription = this.eventBusService.getDraggabillyInstance()
       .subscribe((draggabilly: Draggabilly) => this.setDraggabillyEvents(draggabilly));
   }
@@ -41,15 +41,22 @@ export class PackeryDirective implements OnDestroy {
     return packerySizes;
   }
 
-  private initializePackery(itemSelector: string, columnWidth: number) {
+  private initializePackery(itemSelector: string, columnWidth: number, positionParams: IPositionParam[]) {
     const nativeElement = this.viewContainerRef.element.nativeElement;
     this.packery = new Packery(nativeElement, {
+      initLayout: false,
       itemSelector: itemSelector,
       gutter: this.gutter,
       percentPosition: true,
       columnWidth: columnWidth,
       transitionDuration: '.8s'
     });
+    positionParams.forEach((param: IPositionParam, index: number, params: IPositionParam[]) => {
+      const item = this.packery.getItem(param.element);
+      item.rect.x = param.position.x;
+      item.rect.y = param.position.y;
+    })
+    this.packery.shiftLayout();
   }
 
   private setDraggabillyEvents(draggabilly: Draggabilly) {

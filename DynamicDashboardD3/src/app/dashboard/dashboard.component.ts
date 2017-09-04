@@ -1,8 +1,9 @@
+import { element } from 'protractor';
 import {
   Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
   ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked
 } from '@angular/core';
-import { IWidgetParams, IWidgetMenuItem } from './../shared/interfaces';
+import { IWidgetParams, IWidgetMenuItem, IPositionParam } from './../shared/interfaces';
 import { WidgetModule } from './widget/widget.module';
 import { PackeryDirective } from '../shared/packery.directive';
 import { WidgetHostDirective } from './widget/widget-host.directive';
@@ -38,9 +39,9 @@ export class DashboardComponent implements AfterViewInit, AfterViewChecked {
 
   constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) { }
 
-  onMenuItemClicked(menuItem: IWidgetMenuItem) {
-    this.widgetAdded = true;
-    this.savedWidgetParams.push(menuItem.widgetParams);
+  ngAfterViewInit(): void {
+    const positionParams = this.loadWidgets();
+    this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth, positionParams);
   }
 
   ngAfterViewChecked(): void {
@@ -56,9 +57,9 @@ export class DashboardComponent implements AfterViewInit, AfterViewChecked {
     this.packeryDirective.refreshLayout();
   }
 
-  ngAfterViewInit(): void {
-    const packerySizes = this.loadWidgets();
-    this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth);
+  onMenuItemClicked(menuItem: IWidgetMenuItem) {
+    this.widgetAdded = true;
+    this.savedWidgetParams.push(menuItem.widgetParams);
   }
 
   addWidget(widgetContainerRef: ViewContainerRef, savedWidget: IWidgetParams): ElementRef {
@@ -82,12 +83,15 @@ export class DashboardComponent implements AfterViewInit, AfterViewChecked {
     return componentRef.location;
   }
 
-  private loadWidgets(): void {
+  private loadWidgets(): IPositionParam[] {
+    const positionParams: IPositionParam[] = [];
     this.packerySizes = this.packeryDirective.getPackyerColmunWidths(this.dashboard, this.savedWidgetParams.length);
     this.widgetViewContainers.forEach((viewContainerRef: ViewContainerRef, index: number, viewContainers: ViewContainerRef[]) => {
       const savedWidget = this.savedWidgetParams[index];
-      this.addWidget(viewContainerRef, savedWidget);
+      const element = this.addWidget(viewContainerRef, savedWidget);
+      positionParams.push({ element: element.nativeElement.firstElementChild, position: savedWidget.position })
     })
+    return positionParams;
   }
 
   private getComponentFactory(widgetComponentKey: string) {
