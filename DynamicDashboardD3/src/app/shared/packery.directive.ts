@@ -1,4 +1,4 @@
-import { IWidgetComponent } from './interfaces';
+import { IWidgetComponent, IPosition } from './interfaces';
 import { Directive, ViewContainerRef, OnDestroy, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/subscription';
 import * as Packery from 'packery';
@@ -56,12 +56,14 @@ export class PackeryDirective implements OnDestroy {
     this.packery.bindDraggabillyEvents(draggabilly);
   }
 
-  onItemAppend(element: ElementRef) {
-    this.packery.appended(element.nativeElement);
+  onItemAppend(element: HTMLElement): IPosition {
+    this.packery.appended(element);
+    const packeryItem = this.packery.getItem(element);
+    return { x: packeryItem.rect.x, y: packeryItem.rect.y }
   }
 
-  onItemRemove(element: ElementRef) {
-    this.packery.remove(element.nativeElement);
+  onItemRemove(element: HTMLElement) {
+    this.packery.remove(element);
   }
 
   refreshLayout() {

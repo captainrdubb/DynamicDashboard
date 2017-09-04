@@ -32,12 +32,18 @@ export interface IWidgetMetadata {
 }
 
 export interface IWidgetParams {
-    ordinal: number;
+    id: number;
     widgetName: string;
     dataParams: any;
+    position: IPosition
 }
 
 export interface IWidgetMenuItem {
     display: string;
     widgetParams: IWidgetParams
+}
+
+export interface IPosition {
+    x: number;
+    y: number
 }
