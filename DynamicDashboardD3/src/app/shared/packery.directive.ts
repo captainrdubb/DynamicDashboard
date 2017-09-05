@@ -13,6 +13,12 @@ import { IPackerySizes } from 'app/shared/interfaces';
 })
 export class PackeryDirective implements OnDestroy {
 
+  static PACKERY_SIZES = {
+    SINGLE_WIDTH: 'singleWidth',
+    DOUBLE_WIDTH: 'doubleWidth',
+    FULL_WIDTH: 'fullWidth'
+  }
+
   private packery: Packery;
   private draggabillySubscription: Subscription;
   private gutter = 2;
@@ -20,12 +26,11 @@ export class PackeryDirective implements OnDestroy {
   constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) {
   }
 
-  public onItemsReady(itemSelector: string, columnWidth: number,
-    positionParams: IPositionParam[], onLayoutComplete: (items) => void) {
+  public onItemsReady(itemSelector: string, columnWidth: number, positionParams: IPositionParam[]) {
 
     this.initializePackery(itemSelector, columnWidth, positionParams);
     this.draggabillySubscription = this.eventBusService.getDraggabillyInstance()
-      .subscribe((draggabilly: Draggabilly) => this.setEvents(draggabilly, onLayoutComplete));
+      .subscribe((draggabilly: Draggabilly) => this.setEvents(draggabilly));
   }
 
   public getPackyerColmunWidths(container: ElementRef, itemsCount: number): IPackerySizes {
@@ -61,9 +66,11 @@ export class PackeryDirective implements OnDestroy {
     this.packery.shiftLayout();
   }
 
-  private setEvents(draggabilly: Draggabilly, onLayoutComplete: (event, items) => void) {
+  private setEvents(draggabilly: Draggabilly) {
     this.packery.bindDraggabillyEvents(draggabilly);
-    this.packery.on('layoutComplete', onLayoutComplete);
+    this.packery.on('dragItemPositioned', (packeryItem) => {
+      this.eventBusService.onPackeryItemPositioned(packeryItem);
+    });
   }
 
   onItemAppend(element: HTMLElement): IPosition {

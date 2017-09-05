@@ -1,4 +1,3 @@
-import { CacheService } from './cache.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PackeryDirective } from './packery.directive';
@@ -9,7 +8,6 @@ import { DraggabillyDirective } from './draggabilly.directive';
     CommonModule
   ],
   declarations: [PackeryDirective, DraggabillyDirective],
-  exports: [PackeryDirective, DraggabillyDirective],
-  providers: [CacheService]
+  exports: [PackeryDirective, DraggabillyDirective]
 })
 export class SharedModule { }

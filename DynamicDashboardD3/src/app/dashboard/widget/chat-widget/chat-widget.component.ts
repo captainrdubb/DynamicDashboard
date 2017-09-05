@@ -1,4 +1,3 @@
-import { CacheService } from './../../../shared/cache.service';
 import { IWidgetComponent } from 'app/shared/interfaces';
 import {
   Component, OnInit, ElementRef, ViewChild, AfterViewInit, ViewContainerRef
@@ -26,7 +25,7 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
   private lastId = 1;
 
-  constructor(private viewContainerRef: ViewContainerRef, cacheService: CacheService) {
+  constructor(private viewContainerRef: ViewContainerRef) {
   }
 
   ngOnInit() {
