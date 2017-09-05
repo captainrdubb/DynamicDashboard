@@ -1,7 +1,6 @@
-import { element } from 'protractor';
 import {
-  Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
-  ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked
+  Component, ComponentRef, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
+  ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked, OnInit
 } from '@angular/core';
 import { IWidgetParams, IWidgetMenuItem, IPositionParam } from './../shared/interfaces';
 import { WidgetModule } from './widget/widget.module';
@@ -14,90 +13,91 @@ import { IWidgetComponent, IPackerySizes } from '../shared/interfaces';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit, AfterViewChecked {
+export class DashboardComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   @ViewChild('dashboard') dashboard: ElementRef;
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
   packerySizes: IPackerySizes;
-  widgetAdded: boolean;
+  newWidgetId: number;
+  userWidgets: IWidgetParams[];
+  widgetMap: Map<number, IWidgetParams> = new Map();
 
   menuItems = [
-    { display: 'Indicator', widgetParams: { id: 1, widgetName: 'HealthCareWidgetComponent', dataParams: null } },
-    { display: 'Messanger', widgetParams: { id: 1, widgetName: 'ChatWidgetComponent', dataParams: null } },
-    { display: 'Note', widgetParams: { id: 1, widgetName: 'DisplayWidgetComponent', dataParams: null } },
-    { display: 'Pie Chart', widgetParams: { id: 1, widgetName: 'ChartWidgetComponent', dataParams: true } }
+    { display: 'Indicator', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: 'doubleSize' } },
+    { display: 'Messanger', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.CHAT, dataParams: null, size: 'doubleSize' } },
+    { display: 'Note', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.NOTE, dataParams: null, size: 'singleSize' } },
+    { display: 'Pie Chart', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: 'singleSize' } }
   ]
-
-  savedWidgetParams: IWidgetParams[] = [
-    { id: 1, widgetName: 'DisplayWidgetComponent', dataParams: null, position: { x: 0, y: 0 } },
-    { id: 2, widgetName: 'ChatWidgetComponent', dataParams: null, position: { x: 355, y: 0 } },
-    { id: 3, widgetName: 'ChartWidgetComponent', dataParams: true, position: { x: 0, y: 419 } },
-    { id: 4, widgetName: 'HealthCareWidgetComponent', dataParams: true, position: { x: 355, y: 419 } }
-  ];
 
   constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) { }
 
+  ngOnInit() {
+    this.userWidgets = this.getUserWidgets();
+  }
+
   ngAfterViewInit(): void {
-    const positionParams = this.loadWidgets();
-    this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth, positionParams);
+    this.loadWidgets(this.userWidgets);
+    const positionParams = this.userWidgets.map((userWidget: IWidgetParams) => {
+      return { element: userWidget.element, position: userWidget.position }
+    });
+    this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth, positionParams, this.onPositionsChanged);
   }
 
   ngAfterViewChecked(): void {
-    if (this.widgetAdded) {
-      const index = this.savedWidgetParams.length - 1;
-      const widgetParams = this.savedWidgetParams[index];
+    if (this.newWidgetId) {
+      const widgetParams = this.widgetMap.get(this.newWidgetId);
       const viewContainerRef = this.widgetViewContainers.last;
-      const widget = this.addWidget(viewContainerRef, widgetParams);
-      const position = this.packeryDirective.onItemAppend(widget.nativeElement.firstElementChild);
-      widgetParams.position = position;
-      this.widgetAdded = false;
+      this.addWidget(viewContainerRef, widgetParams);
+
+      widgetParams.position = this.packeryDirective.onItemAppend(widgetParams.element);
+
+      this.newWidgetId = undefined;
     }
     this.packeryDirective.refreshLayout();
   }
 
   onMenuItemClicked(menuItem: IWidgetMenuItem) {
-    this.widgetAdded = true;
-    this.savedWidgetParams.push(menuItem.widgetParams);
+    const idBuffer = this.getRandomIds(1);
+    this.newWidgetId = idBuffer[0];
+    this.widgetMap.set(idBuffer[0], menuItem.widgetParams);
   }
 
-  addWidget(widgetContainerRef: ViewContainerRef, savedWidget: IWidgetParams): ElementRef {
+  addWidget(widgetContainerRef: ViewContainerRef, widgetParams: IWidgetParams): void {
     widgetContainerRef.clear();
-    const widgetFactory = this.getComponentFactory(savedWidget.widgetName);
+    const widgetFactory = this.getComponentFactory(widgetParams.widgetName);
     const componentRef = widgetContainerRef.createComponent(widgetFactory);
 
+    this.widgetMap.set(widgetParams.id, widgetParams);
+    widgetParams.element = componentRef.location.nativeElement.firstElementChild;
+
     const widget = componentRef.instance as IWidgetComponent;
-    const metadata = WidgetModule.WidgetMetadata[savedWidget.widgetName];
-    widget.columnWidth = this.packerySizes[metadata.size];
+    widget.columnWidth = this.packerySizes[widgetParams.size];
     widget.destroy = () => {
-      const index = this.savedWidgetParams.indexOf(savedWidget, 0);
-      this.savedWidgetParams.splice(index, 1);
-      this.packeryDirective.onItemRemove(componentRef.location.nativeElement.firstElementChild);
+      this.widgetMap.delete(widgetParams.id);
+      this.packeryDirective.onItemRemove(widgetParams.element);
     }
-    if (savedWidget.dataParams) {
-      widget.data = this.getData(savedWidget.dataParams);
+    if (widgetParams.dataParams) {
+      widget.data = this.getData(widgetParams.dataParams);
     }
 
     componentRef.changeDetectorRef.detectChanges();
-    return componentRef.location;
   }
 
-  private loadWidgets(): IPositionParam[] {
+  private loadWidgets(userWidgets: IWidgetParams[]): void {
     const positionParams: IPositionParam[] = [];
-    this.packerySizes = this.packeryDirective.getPackyerColmunWidths(this.dashboard, this.savedWidgetParams.length);
+    this.packerySizes = this.packeryDirective.getPackyerColmunWidths(this.dashboard, userWidgets.length);
     this.widgetViewContainers.forEach((viewContainerRef: ViewContainerRef, index: number, viewContainers: ViewContainerRef[]) => {
-      const savedWidget = this.savedWidgetParams[index];
-      const element = this.addWidget(viewContainerRef, savedWidget);
-      positionParams.push({ element: element.nativeElement.firstElementChild, position: savedWidget.position })
+      const userWidget = userWidgets[index];
+      this.addWidget(viewContainerRef, userWidget);
     })
-    return positionParams;
   }
 
   private getComponentFactory(widgetComponentKey: string) {
     if (!this.widgetComponentFactories[widgetComponentKey]) {
-      const metadata = WidgetModule.WidgetMetadata[widgetComponentKey];
-      this.widgetComponentFactories[widgetComponentKey] = this.componentFactoryResolver.resolveComponentFactory(metadata.type);
+      const component = WidgetModule.WidgetComponentTypes[widgetComponentKey];
+      this.widgetComponentFactories[widgetComponentKey] = this.componentFactoryResolver.resolveComponentFactory(component);
     }
     return this.widgetComponentFactories[widgetComponentKey];
   }
@@ -116,5 +116,48 @@ export class DashboardComponent implements AfterViewInit, AfterViewChecked {
     ['Nilotic', '785', '1670', '31']];
     data.shift()
     return data;
+  }
+
+  private getUserWidgets(): IWidgetParams[] {
+    const ids = this.getRandomIds(4);
+    return [
+      {
+        id: ids[0], widgetName: WidgetModule.WIDGET_KEYS.NOTE,
+        dataParams: null, position: { x: 0, y: 0 }, element: null, size: 'singleSize'
+      },
+      {
+        id: ids[1], widgetName: WidgetModule.WIDGET_KEYS.CHAT,
+        dataParams: null, position: { x: 0, y: 419 }, element: null, size: 'doubleSize'
+      },
+      {
+        id: ids[2], widgetName: WidgetModule.WIDGET_KEYS.CHART,
+        dataParams: true, position: { x: 355, y: 0 }, element: null, size: 'singleSize'
+      },
+      {
+        id: ids[3], widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC,
+        dataParams: true, position: { x: 355, y: 419 }, element: null, size: 'doubleSize'
+      }
+    ];
+  }
+
+  private getRandomIds(size: number): Uint32Array {
+    const buffer = new Uint32Array(size);
+    crypto.getRandomValues(buffer);
+    return buffer;
+  }
+
+  private onPositionsChanged(items: any[]) {
+    items.forEach((item) => {
+      const iterator = this.widgetMap.values();
+      const iterable = iterator.next();
+      let found = false;
+      while (found === false && iterable.done === false) {
+        if (iterable.value.element === item.element) {
+          iterable.value.position.x = item.rect.x;
+          iterable.value.position.y = item.rect.y;
+          found = true;
+        };
+      }
+    });
   }
 }

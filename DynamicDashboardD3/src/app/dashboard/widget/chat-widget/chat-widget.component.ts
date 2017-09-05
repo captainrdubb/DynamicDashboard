@@ -1,7 +1,7 @@
+import { CacheService } from './../../../shared/cache.service';
 import { IWidgetComponent } from 'app/shared/interfaces';
 import {
-  Component, OnInit, ElementRef, ViewChild, AfterViewInit,
-  ViewRef, ViewContainerRef, TemplateRef, Output, EventEmitter
+  Component, OnInit, ElementRef, ViewChild, AfterViewInit, ViewContainerRef
 } from '@angular/core';
 import { Message } from '../../../shared/interfaces';
 import { DraggabillyDirective } from 'app/shared/draggabilly.directive';
@@ -24,10 +24,9 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
   @ViewChild('messageInput') messageInput: ElementRef;
   @ViewChild('chatWindow') chatWindow: ElementRef;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
-  @Output() removeMe: EventEmitter<ViewContainerRef> = new EventEmitter();
   private lastId = 1;
 
-  constructor(private viewContainerRef: ViewContainerRef) {
+  constructor(private viewContainerRef: ViewContainerRef, cacheService: CacheService) {
   }
 
   ngOnInit() {
@@ -58,10 +57,6 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
         this.chatWindow.nativeElement.scrollTop = this.chatWindow.nativeElement.scrollHeight;
       }, 100);
     }
-  }
-
-  onTrashClick() {
-    this.removeMe.emit(this.viewContainerRef);
   }
 
   sendMessage(text: string) {

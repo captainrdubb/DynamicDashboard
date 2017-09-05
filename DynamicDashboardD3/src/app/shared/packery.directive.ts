@@ -20,10 +20,12 @@ export class PackeryDirective implements OnDestroy {
   constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) {
   }
 
-  public onItemsReady(itemSelector: string, columnWidth: number, positionParams: IPositionParam[]) {
+  public onItemsReady(itemSelector: string, columnWidth: number,
+    positionParams: IPositionParam[], onLayoutComplete: (items) => void) {
+
     this.initializePackery(itemSelector, columnWidth, positionParams);
     this.draggabillySubscription = this.eventBusService.getDraggabillyInstance()
-      .subscribe((draggabilly: Draggabilly) => this.setDraggabillyEvents(draggabilly));
+      .subscribe((draggabilly: Draggabilly) => this.setEvents(draggabilly, onLayoutComplete));
   }
 
   public getPackyerColmunWidths(container: ElementRef, itemsCount: number): IPackerySizes {
@@ -59,8 +61,9 @@ export class PackeryDirective implements OnDestroy {
     this.packery.shiftLayout();
   }
 
-  private setDraggabillyEvents(draggabilly: Draggabilly) {
+  private setEvents(draggabilly: Draggabilly, onLayoutComplete: (event, items) => void) {
     this.packery.bindDraggabillyEvents(draggabilly);
+    this.packery.on('layoutComplete', onLayoutComplete);
   }
 
   onItemAppend(element: HTMLElement): IPosition {

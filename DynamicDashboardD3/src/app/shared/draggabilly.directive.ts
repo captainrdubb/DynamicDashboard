@@ -8,15 +8,15 @@ import { EventBusService } from '../core/event-bus.service';
 })
 export class DraggabillyDirective {
 
-  constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) { }
-
   draggabilly: Draggabilly
+
+  constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) { }
 
   public onItemsReady(containerSelector: string) {
     this.initializeDraggabilly(containerSelector);
   }
 
-  public enable(): void { 
+  public enable(): void {
     this.draggabilly.enable();
   }
 
@@ -25,7 +25,7 @@ export class DraggabillyDirective {
   }
 
   private initializeDraggabilly(containerSelector: string) {
-    let nativeElement = this.viewContainerRef.element.nativeElement;
+    const nativeElement = this.viewContainerRef.element.nativeElement;
     this.draggabilly = new Draggabilly(nativeElement, { containment: containerSelector });
     this.eventBusService.onDraggabillyInitialized(this.draggabilly);
   }

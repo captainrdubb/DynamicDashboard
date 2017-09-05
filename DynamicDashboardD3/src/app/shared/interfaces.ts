@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { IWidgetParams } from './interfaces';
+import { IWidgetParams, IPositionParam } from './interfaces';
 import { Type, Component } from '@angular/core';
 export interface INavItem {
     id: number;
@@ -27,16 +27,13 @@ export interface Message {
     message: string;
 }
 
-export interface IWidgetMetadata {
-    type: Type<{}>;
-    size: string;
-}
-
 export interface IWidgetParams {
     id: number;
+    size: string;
     widgetName: string;
     dataParams: any;
-    position: IPosition
+    position: IPosition;
+    element: HTMLElement;
 }
 
 export interface IWidgetMenuItem {

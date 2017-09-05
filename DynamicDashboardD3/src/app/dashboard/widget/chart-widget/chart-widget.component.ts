@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation, Renderer } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
@@ -10,7 +10,6 @@ import { IWidgetComponent, IPackerySizes } from 'app/shared/interfaces';
   selector: 'dd-chart-widget',
   templateUrl: './chart-widget.component.html',
   styleUrls: ['./chart-widget.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
 })
 export class ChartWidgetComponent implements AfterViewInit, IWidgetComponent {
 

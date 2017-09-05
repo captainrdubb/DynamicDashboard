@@ -3,13 +3,17 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CacheService {
 
-  constructor() { }  
-
-  saveSettings(settings:any){
-    localStorage.setItem('user-settings', settings);
+  static KEYS = {
+    WIDGET_PARAMS: 'widgetParams'
   }
 
-  getSettings(){
-    return JSON.parse(localStorage.getItem('user-settings'));
+  constructor() { }
+
+  cacheItem(key: string, item: any) {
+    localStorage.setItem(key, item);
+  }
+
+  getItem(key: string) {
+    return JSON.parse(localStorage.getItem(key));
   }
 }
