@@ -1,0 +1,91 @@
+@import '../widget.shared';
+@import '../../../../sass/variables';
+
+$local-body-height: 330px;
+
+@mixin placeholderStyling($textAlign, $lineHeight){
+    text-align: $textAlign;
+    color: #4A535E;        
+    line-height: $lineHeight;
+}  
+
+@mixin focusAndPlaceholder($textAlign, $lineHeight){
+
+    &::-webkit-input-placeholder {       
+        @include placeholderStyling($textAlign, $lineHeight);
+    }
+    &::-moz-placeholder {
+        @include placeholderStyling($textAlign, $lineHeight);
+    }
+    &:-ms-input-placeholder {
+        @include placeholderStyling($textAlign, $lineHeight);
+    }
+    &:-moz-placeholder {
+        @include placeholderStyling($textAlign, $lineHeight);
+    }
+}
+
+.note-widget{
+    @extend .widget;
+    height:400px;    
+
+    .note-header{
+        padding: 0 15px;
+        width: 100%;
+        background-color: $logo-font-color;
+        @extend .widget-header-tray;
+
+        .note-title{            
+            width:100%;
+            padding-left: 5px;
+            font-size: 20px;
+            font-weight: bold;            
+            background-color: transparent; 
+            border:none;
+            color: #1C2736;                
+            @include focusAndPlaceholder(left, inherit);
+
+            &:not([disabled]){
+                background-color: #FFD587;                
+            }
+        }
+    }
+
+    .note-body{
+        height: $local-body-height;  
+        padding: 5px 15px 10px 15px;
+        font-size: 18px;
+        width: 100%;
+
+        textarea{            
+            resize: none;
+            height: 100%;
+            width: 100%;
+            padding-left: 5px;
+            background-color: transparent;
+            border: none;            
+            color: $blueish-white;                
+            @include focusAndPlaceholder(center, $local-body-height - 22);   
+
+            &:not([disabled]){
+                background-color: #4A535E;                
+            }
+        }
+    }    
+
+    .icon-tray{
+        height: 45px;
+        padding: 0 15px;
+        height: 30px;        
+        width: 100%;
+
+        .fa {            
+            font-size: 28px;
+            color: $blueish-white;
+
+            &.fa-check-square-o{
+                color: #68B468;
+            }
+        }
+    }
+}
