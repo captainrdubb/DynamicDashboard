@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, ResponseOptions, ResponseOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/observable'
-import 'rxjs/add/observable/of';
 
 @Injectable()
 export class CensusDataService {

@@ -3,6 +3,9 @@ import { Directive, ViewContainerRef, OnDestroy, ElementRef } from '@angular/cor
 import { Subscription } from 'rxjs/subscription';
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
+import { Observable } from 'rxjs/observable';
+import { fromEvent } from 'rxjs/observable/fromEvent'
+import 'rxjs/add/operator/first'
 
 import { EventBusService } from '../core/event-bus.service';
 import { IPackerySizes } from 'app/shared/interfaces';
@@ -66,11 +69,8 @@ export class PackeryDirective implements OnDestroy {
     this.packery.shiftLayout();
   }
 
-  private setEvents(draggabilly: Draggabilly) {
-    this.packery.bindDraggabillyEvents(draggabilly);
-    this.packery.on('dragItemPositioned', (packeryItem) => {
-      this.eventBusService.onPackeryItemPositioned(packeryItem);
-    });
+  getItemsLayout(): Observable<any[]> {
+    return fromEvent<any[]>(this.packery as Packery, 'layoutComplete').first();
   }
 
   onItemAppend(element: HTMLElement): IPosition {
@@ -89,5 +89,9 @@ export class PackeryDirective implements OnDestroy {
 
   ngOnDestroy(): void {
     this.draggabillySubscription.unsubscribe();
+  }
+
+  private setEvents(draggabilly: Draggabilly) {
+    this.packery.bindDraggabillyEvents(draggabilly);
   }
 }

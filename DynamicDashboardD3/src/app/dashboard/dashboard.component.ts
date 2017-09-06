@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { EventBusService } from './../core/event-bus.service';
 import {
   Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
@@ -23,7 +24,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   packerySizes: IPackerySizes;
   newWidgetId: number;
   userWidgets: IWidgetParams[];
-  widgetMap: Map<number, IWidgetParams> = new Map();
 
   menuItems = [
     { display: 'Indicator', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
@@ -43,13 +43,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     const positionParams = this.userWidgets.map((userWidget: IWidgetParams) => {
       return { element: userWidget.element, position: userWidget.position }
     });
-    this.eventBus.getPackeryItemPosition().subscribe((packeryItem: any) => this.onItemPositioned(packeryItem));
+
     this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth, positionParams);
+    this.getItemsLayout();
   }
 
   ngAfterViewChecked(): void {
     if (this.newWidgetId) {
-      const widgetParams = this.widgetMap.get(this.newWidgetId);
+      const widgetParams = this.userWidgets[this.userWidgets.length - 1];
       const viewContainerRef = this.widgetViewContainers.last;
       this.addWidget(viewContainerRef, widgetParams);
 
@@ -63,7 +64,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   onMenuItemClicked(menuItem: IWidgetMenuItem) {
     const idBuffer = this.getRandomIds(1);
     this.newWidgetId = idBuffer[0];
-    this.widgetMap.set(idBuffer[0], menuItem.widgetParams);
+    menuItem.widgetParams.id = this.newWidgetId;
+    this.userWidgets.push(menuItem.widgetParams);
   }
 
   addWidget(widgetContainerRef: ViewContainerRef, widgetParams: IWidgetParams): void {
@@ -71,13 +73,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     const widgetFactory = this.getComponentFactory(widgetParams.widgetName);
     const componentRef = widgetContainerRef.createComponent(widgetFactory);
 
-    this.widgetMap.set(widgetParams.id, widgetParams);
     widgetParams.element = componentRef.location.nativeElement.firstElementChild;
+    this.userWidgets.push(widgetParams);
 
+    const index = this.userWidgets.length - 1;
     const widget = componentRef.instance as IWidgetComponent;
     widget.columnWidth = this.packerySizes[widgetParams.size];
+
     widget.destroy = () => {
-      this.widgetMap.delete(widgetParams.id);
+      this.userWidgets.slice(index, 1);
       this.packeryDirective.onItemRemove(widgetParams.element);
     }
     if (widgetParams.dataParams) {
@@ -137,7 +141,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
       },
       {
         id: ids[3], widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC,
-        dataParams: true, position: { x: 355, y: 419 }, element: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH
+        dataParams: true, position: { x: 0, y: 419 }, element: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH
       }
     ];
   }
@@ -148,17 +152,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     return buffer;
   }
 
-  onItemPositioned(item) {
-    const iterator = this.widgetMap.values();
-    let iterable = iterator.next();
-    let found = false;
-    while (found === false && iterable.done === false) {
-      if (iterable.value.element === item.element) {
-        iterable.value.position.x = item.rect.x;
-        iterable.value.position.y = item.rect.y;
-        found = true;
-      };
-      iterable = iterator.next();
-    }
+  private getItemsLayout() {    
+    const subscription = this.packeryDirective.getItemsLayout().subscribe((packeryItems) => {
+      packeryItems.forEach((item:any)=>{
+        for(let i = 0; i < this.userWidgets.length; ++i){
+          if(this.userWidgets[i].element === item.element){
+            this.userWidgets[i].position.x = item.rect.x;
+            this.userWidgets[i].position.y = item.rect.y;
+          }
+        }
+      })
+    });    
   }
 }
