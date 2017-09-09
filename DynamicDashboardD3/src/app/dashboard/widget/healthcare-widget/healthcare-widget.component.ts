@@ -10,10 +10,12 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class HealthCareWidgetComponent implements AfterViewInit, IWidgetComponent {
 
-  id: number;
   destroy: () => void;
   columnWidth: number;
   data: string[][];
+  get element() {
+    return this._element;
+  }
 
   @ViewChild('maleGraphic')
   maleGraphic: ElementRef;
@@ -65,7 +67,7 @@ export class HealthCareWidgetComponent implements AfterViewInit, IWidgetComponen
     }
   }
 
-  constructor() {
+  constructor(private _element: ElementRef) {
     this.chartHeader = 'Health Care Coverage in Nebraska';
   }
 

@@ -1,3 +1,4 @@
+import { CoreModule } from './../core/core.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +11,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     CommonModule,
     DashboardRoutingModule,
     WidgetModule,
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
   declarations: [DashboardRoutingModule.components]
 })

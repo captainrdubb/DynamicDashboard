@@ -1,3 +1,4 @@
+import { WindowService } from './window.service';
 import { CacheService } from './cache.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +13,7 @@ import { CensusDataService } from './census-data.service';
     CommonModule,
     HttpModule
   ],
-  providers: [EventBusService, D3PieFactoryService, CensusDataService, CacheService],
+  providers: [EventBusService, D3PieFactoryService, CensusDataService, CacheService, WindowService],
   declarations: []
 })
 export class CoreModule { }

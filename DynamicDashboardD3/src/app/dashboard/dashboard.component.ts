@@ -1,3 +1,4 @@
+import { WindowService } from './../core/window.service';
 import {
   Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
   ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked, OnInit
@@ -34,7 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     { display: 'Pie Chart', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } }
   ]
 
-  constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver, private eventBus: EventBusService) { }
+  constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver, private eventBus: EventBusService, private windowService: WindowService) { }
 
   ngOnInit() {
     this.userWidgets = this.getUserWidgets();
@@ -63,9 +64,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     if (this.newWidgetId) {
       const widgetParams = this.userWidgets[this.userWidgets.length - 1];
       const viewContainerRef = this.widgetViewContainers.last;
-      this.addWidget(viewContainerRef, widgetParams);
+      const widgetDirective = this.addWidget(viewContainerRef, widgetParams);
       this.packeryDirective.onItemAppend(widgetParams.element);
       this.newWidgetId = undefined;
+
+      const widgetElement = widgetDirective.element.nativeElement.firstElementChild;
+      const scrollY = +widgetElement.offsetTop + +widgetElement.offsetHeight;
+      this.windowService.windowRef.scroll(0, scrollY);
     }
   }
 
@@ -76,14 +81,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     this.userWidgets.push(menuItem.widgetParams);
   }
 
-  addWidget(widgetContainerRef: ViewContainerRef, widgetParams: IWidgetParams): void {
+  addWidget(widgetContainerRef: ViewContainerRef, widgetParams: IWidgetParams): IWidgetComponent {
     widgetContainerRef.clear();
     const widgetFactory = this.getComponentFactory(widgetParams.widgetName);
     const componentRef = widgetContainerRef.createComponent(widgetFactory);
 
     widgetParams.element = componentRef.location.nativeElement.firstElementChild;
-    if(this.userWidgets.indexOf(widgetParams) === -1){
-      this.userWidgets.push(widgetParams);    
+    if (this.userWidgets.indexOf(widgetParams) === -1) {
+      this.userWidgets.push(widgetParams);
     }
 
     const index = this.userWidgets.length - 1;
@@ -98,6 +103,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
       widget.data = this.getData(widgetParams.dataParams);
     }
     componentRef.changeDetectorRef.detectChanges();
+    return widget;
   }
 
   private loadWidgets(userWidgets: IWidgetParams[]): void {

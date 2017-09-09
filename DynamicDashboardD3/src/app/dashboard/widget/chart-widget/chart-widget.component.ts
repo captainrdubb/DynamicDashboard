@@ -13,17 +13,19 @@ import { IWidgetComponent, IPackerySizes } from 'app/shared/interfaces';
 })
 export class ChartWidgetComponent implements AfterViewInit, IWidgetComponent {
 
-  id: number;
   destroy: () => void;
-  chartType: string;
   columnWidth: number;
   data: string[][];
+  get element() {
+    return this._element;
+  }
+
   selectedPath: EventTarget;
   chartHeader = 'Languages in Nebraska';
   @ViewChild('chartWidget') chartWidget: ElementRef;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
-  constructor(private d3PieFactory: D3PieFactoryService, private renderer: Renderer) { }
+  constructor(private d3PieFactory: D3PieFactoryService, private renderer: Renderer, private _element: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.createPieChart();

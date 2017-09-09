@@ -1,6 +1,6 @@
-import { element } from 'protractor';
 import { IWidgetParams, IPositionParam } from './interfaces';
-import { Type, Component } from '@angular/core';
+import { Type, Component, ElementRef } from '@angular/core';
+
 export interface INavItem {
     id: number;
     name: string;
@@ -8,7 +8,7 @@ export interface INavItem {
 }
 
 export interface IWidgetComponent {
-    id: number;
+    element: ElementRef;
     columnWidth: number;
     data: string[][];
     destroy: () => void;

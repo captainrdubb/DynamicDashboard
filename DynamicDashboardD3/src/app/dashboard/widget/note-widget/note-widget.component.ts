@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { IWidgetComponent } from './../../../shared/interfaces';
 import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 
@@ -10,16 +10,18 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class NoteWidgetComponent implements AfterViewInit, IWidgetComponent {
 
-  id: number;
   editMode = false;
-  chartType: string;
   data: string[][];
   columnWidth: number;
+  get element() {
+    return this._element;
+  }
+
   destroy: () => void;
   @Input() displayHeader;
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
 
-  constructor() { }
+  constructor(private _element: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.draggabillyDirective.onItemsReady('.dashboard');

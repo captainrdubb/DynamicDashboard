@@ -13,10 +13,12 @@ import { DraggabillyDirective } from 'app/shared/draggabilly.directive';
 })
 export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetComponent {
 
-  id: number;
   destroy: () => void;
   columnWidth: number;
   data: string[][];
+  get element() {
+    return this._element;
+  }
 
   userId = 1;
   messages: Message[];
@@ -26,7 +28,7 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
   @ViewChild(DraggabillyDirective) draggabillyDirective: DraggabillyDirective;
   private lastId = 1;
 
-  constructor(private viewContainerRef: ViewContainerRef) {
+  constructor(private viewContainerRef: ViewContainerRef, private _element: ElementRef) {
   }
 
   ngOnInit() {
