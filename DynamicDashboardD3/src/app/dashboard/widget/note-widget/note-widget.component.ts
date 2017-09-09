@@ -10,6 +10,7 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class NoteWidgetComponent implements AfterViewInit, IWidgetComponent {
 
+  id: number;
   editMode = false;
   chartType: string;
   data: string[][];

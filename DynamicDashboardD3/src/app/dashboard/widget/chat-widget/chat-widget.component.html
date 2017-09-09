@@ -10,6 +10,6 @@
   </div>
   <div class="chat-footer">
     <div (click)="sendMessage()" class="send-button">Send</div>
-    <div contenteditable="true" (keydown)="onKeyDown($event)" #messageInput class="message-input" type="text"></div>
+    <div (mouseenter)="onMessageEnter()" (mouseleave)="onMessageLeave()" contenteditable="true" (keydown)="onKeyDown($event)" #messageInput class="message-input" type="text"></div>
   </div>
 </div>

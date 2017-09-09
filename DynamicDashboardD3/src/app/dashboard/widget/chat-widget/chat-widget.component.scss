@@ -110,6 +110,7 @@ $footer-height:50px;
             background-color: #ffffff;
             padding: 5px 0 0 5px;
             overflow-y: auto;
+            z-index: 100;
 
             &:active{
                 border: none;

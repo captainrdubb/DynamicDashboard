@@ -8,6 +8,7 @@ export interface INavItem {
 }
 
 export interface IWidgetComponent {
+    id: number;
     columnWidth: number;
     data: string[][];
     destroy: () => void;

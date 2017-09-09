@@ -10,6 +10,7 @@ import { DraggabillyDirective } from '../../../shared/draggabilly.directive';
 })
 export class HealthCareWidgetComponent implements AfterViewInit, IWidgetComponent {
 
+  id: number;
   destroy: () => void;
   columnWidth: number;
   data: string[][];

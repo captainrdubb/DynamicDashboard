@@ -1,9 +1,10 @@
-import { element } from 'protractor';
-import { EventBusService } from './../core/event-bus.service';
 import {
   Component, AfterViewInit, ViewChild, ViewChildren, QueryList, ViewContainerRef,
   ComponentFactoryResolver, ComponentFactory, ElementRef, Type, AfterViewChecked, OnInit
 } from '@angular/core';
+import { Subscription } from 'rxjs/subscription';
+import { element } from 'protractor';
+import { EventBusService } from './../core/event-bus.service';
 import { IWidgetParams, IWidgetMenuItem, IPositionParam } from './../shared/interfaces';
 import { WidgetModule } from './widget/widget.module';
 import { PackeryDirective } from '../shared/packery.directive';
@@ -21,21 +22,32 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   @ViewChild(PackeryDirective) packeryDirective: PackeryDirective;
   @ViewChildren(WidgetHostDirective, { read: ViewContainerRef }) widgetViewContainers: QueryList<ViewContainerRef>;
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
+  layoutSubscription: Subscription;
   packerySizes: IPackerySizes;
   newWidgetId: number;
   userWidgets: IWidgetParams[];
 
   menuItems = [
-    { display: 'Indicator', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
-    { display: 'Messanger', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.CHAT, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
-    { display: 'Note', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.NOTE, dataParams: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } },
-    { display: 'Pie Chart', widgetParams: { widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } }
+    { display: 'Indicator', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
+    { display: 'Messanger', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHAT, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
+    { display: 'Note', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.NOTE, dataParams: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } },
+    { display: 'Pie Chart', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } }
   ]
 
   constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver, private eventBus: EventBusService) { }
 
   ngOnInit() {
     this.userWidgets = this.getUserWidgets();
+    let layoutSubscription = this.packeryDirective.subscribeToItemsLayout().subscribe((packeryItems) => {
+      packeryItems.forEach((item: any) => {
+        for (let i = 0; i < this.userWidgets.length; ++i) {
+          if (this.userWidgets[i].element === item.element) {
+            this.userWidgets[i].position.x = item.rect.x;
+            this.userWidgets[i].position.y = item.rect.y;
+          }
+        }
+      })
+    });
   }
 
   ngAfterViewInit(): void {
@@ -45,7 +57,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     });
 
     this.packeryDirective.onItemsReady('.widget', this.packerySizes.singleWidth, positionParams);
-    this.getItemsLayout();
   }
 
   ngAfterViewChecked(): void {
@@ -53,12 +64,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
       const widgetParams = this.userWidgets[this.userWidgets.length - 1];
       const viewContainerRef = this.widgetViewContainers.last;
       this.addWidget(viewContainerRef, widgetParams);
-
-      widgetParams.position = this.packeryDirective.onItemAppend(widgetParams.element);
-
+      this.packeryDirective.onItemAppend(widgetParams.element);
       this.newWidgetId = undefined;
     }
-    this.packeryDirective.refreshLayout();
   }
 
   onMenuItemClicked(menuItem: IWidgetMenuItem) {
@@ -74,7 +82,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     const componentRef = widgetContainerRef.createComponent(widgetFactory);
 
     widgetParams.element = componentRef.location.nativeElement.firstElementChild;
-    this.userWidgets.push(widgetParams);
+    if(this.userWidgets.indexOf(widgetParams) === -1){
+      this.userWidgets.push(widgetParams);    
+    }
 
     const index = this.userWidgets.length - 1;
     const widget = componentRef.instance as IWidgetComponent;
@@ -87,7 +97,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     if (widgetParams.dataParams) {
       widget.data = this.getData(widgetParams.dataParams);
     }
-
     componentRef.changeDetectorRef.detectChanges();
   }
 
@@ -152,16 +161,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
     return buffer;
   }
 
-  private getItemsLayout() {    
-    const subscription = this.packeryDirective.getItemsLayout().subscribe((packeryItems) => {
-      packeryItems.forEach((item:any)=>{
-        for(let i = 0; i < this.userWidgets.length; ++i){
-          if(this.userWidgets[i].element === item.element){
-            this.userWidgets[i].position.x = item.rect.x;
-            this.userWidgets[i].position.y = item.rect.y;
-          }
-        }
-      })
-    });    
+  ngOnDestroy() {
+
   }
 }

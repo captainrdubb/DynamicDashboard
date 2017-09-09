@@ -13,6 +13,7 @@ import { DraggabillyDirective } from 'app/shared/draggabilly.directive';
 })
 export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetComponent {
 
+  id: number;
   destroy: () => void;
   columnWidth: number;
   data: string[][];
@@ -70,6 +71,14 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
       }
       this.messages.push(message);
     }
+  }
+
+  onMessageEnter() {
+    this.draggabillyDirective.disable();
+  }
+
+  onMessageLeave() {
+    this.draggabillyDirective.enable();
   }
 
   onDestroyClick() {

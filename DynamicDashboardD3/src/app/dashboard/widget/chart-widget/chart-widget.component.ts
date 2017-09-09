@@ -13,6 +13,7 @@ import { IWidgetComponent, IPackerySizes } from 'app/shared/interfaces';
 })
 export class ChartWidgetComponent implements AfterViewInit, IWidgetComponent {
 
+  id: number;
   destroy: () => void;
   chartType: string;
   columnWidth: number;

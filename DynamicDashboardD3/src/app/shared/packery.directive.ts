@@ -4,7 +4,9 @@ import { Subscription } from 'rxjs/subscription';
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
 import { Observable } from 'rxjs/observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { fromEvent } from 'rxjs/observable/fromEvent'
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/first'
 
 import { EventBusService } from '../core/event-bus.service';
@@ -23,7 +25,10 @@ export class PackeryDirective implements OnDestroy {
   }
 
   private packery: Packery;
+  private layout = new BehaviorSubject([]);
+  private dragItemPositioned: Subscription;
   private draggabillySubscription: Subscription;
+  private sub: Subscription;
   private gutter = 2;
 
   constructor(private viewContainerRef: ViewContainerRef, private eventBusService: EventBusService) {
@@ -33,7 +38,16 @@ export class PackeryDirective implements OnDestroy {
 
     this.initializePackery(itemSelector, columnWidth, positionParams);
     this.draggabillySubscription = this.eventBusService.getDraggabillyInstance()
-      .subscribe((draggabilly: Draggabilly) => this.setEvents(draggabilly));
+      .subscribe(draggabilly => this.setEvents(draggabilly));
+
+    this.packery.on('dragItemPositioned', () => {
+      if (this.sub) {
+        this.sub.unsubscribe();
+      }
+      this.sub = fromEvent<any[]>(this.packery as Packery, 'layoutComplete')
+        .first().subscribe(items => this.layout.next(items));
+      this.packery.shiftLayout();
+    });    
   }
 
   public getPackyerColmunWidths(container: ElementRef, itemsCount: number): IPackerySizes {
@@ -69,21 +83,29 @@ export class PackeryDirective implements OnDestroy {
     this.packery.shiftLayout();
   }
 
-  getItemsLayout(): Observable<any[]> {
-    return fromEvent<any[]>(this.packery as Packery, 'layoutComplete').first();
+  subscribeToItemsLayout(): BehaviorSubject<any[]> {
+    return this.layout;
   }
 
-  onItemAppend(element: HTMLElement): IPosition {
+  onItemAppend(element: HTMLElement): void {
     this.packery.appended(element);
-    const packeryItem = this.packery.getItem(element);
-    return { x: packeryItem.rect.x, y: packeryItem.rect.y }
+
+    if (this.sub)
+      this.sub.unsubscribe();
+
+    this.sub = fromEvent<any[]>(this.packery as Packery, 'layoutComplete')
+      .first().subscribe(items => this.layout.next(items));
+    this.packery.shiftLayout();
   }
 
   onItemRemove(element: HTMLElement) {
     this.packery.remove(element);
-  }
 
-  refreshLayout() {
+    if (this.sub)
+      this.sub.unsubscribe();
+
+    this.sub = fromEvent<any[]>(this.packery as Packery, 'layoutComplete')
+      .first().subscribe(items => this.layout.next(items));
     this.packery.shiftLayout();
   }
 
