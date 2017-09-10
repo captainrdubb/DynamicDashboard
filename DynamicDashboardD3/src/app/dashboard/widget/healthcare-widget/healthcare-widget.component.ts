@@ -152,8 +152,4 @@ export class HealthCareWidgetComponent implements AfterViewInit, IWidgetComponen
       .html(this.graphicCache.female[80])
       .attr('transform', `translate(${svgWidth / 2},10)`);
   }
-
-  onDestroyClick() {
-    this.destroy();
-  }
 }

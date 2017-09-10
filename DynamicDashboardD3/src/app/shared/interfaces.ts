@@ -29,7 +29,6 @@ export interface Message {
 }
 
 export interface IWidgetParams {
-    id: number;
     size: string;
     widgetName: string;
     dataParams: any;

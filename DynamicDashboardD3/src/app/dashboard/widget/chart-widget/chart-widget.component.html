@@ -1,6 +1,6 @@
 <div dd-draggabilly class="widget chart-widget" [style.width.px]="columnWidth">  
   <div class="chart-header">{{chartHeader}}
-    <span (click)="onDestroyClick()" class="fa fa-trash header-tray"></span>
+    <span (click)="destroy()" class="fa fa-trash header-tray"></span>
   </div>
   <svg #chartWidget class="chart">
     Chart Widget

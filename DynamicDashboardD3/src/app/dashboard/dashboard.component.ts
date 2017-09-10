@@ -25,14 +25,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   widgetComponentFactories: { [key: string]: ComponentFactory<{}> } = {};
   layoutSubscription: Subscription;
   packerySizes: IPackerySizes;
-  newWidgetId: number;
+  newWidget: boolean;
   userWidgets: IWidgetParams[];
 
   menuItems = [
-    { display: 'Indicator', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
-    { display: 'Messanger', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHAT, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
-    { display: 'Note', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.NOTE, dataParams: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } },
-    { display: 'Pie Chart', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } }
+    { display: 'Chart', icon: 'fa fa-pie-chart', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHART, dataParams: true, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } },
+    { display: 'Graphic', icon: 'fa fa-object-group', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
+    { display: 'Message', icon: 'fa fa-comments', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.CHAT, dataParams: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH } },
+    { display: 'Note', icon: 'fa fa-pencil', widgetParams: { position: { x: 0, y: 0 }, widgetName: WidgetModule.WIDGET_KEYS.NOTE, dataParams: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH } }
   ]
 
   constructor(private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver, private eventBus: EventBusService, private windowService: WindowService) { }
@@ -61,24 +61,29 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   ngAfterViewChecked(): void {
-    if (this.newWidgetId) {
+    if (this.newWidget) {
       const widgetParams = this.userWidgets[this.userWidgets.length - 1];
       const viewContainerRef = this.widgetViewContainers.last;
       const widgetDirective = this.addWidget(viewContainerRef, widgetParams);
       this.packeryDirective.onItemAppend(widgetParams.element);
-      this.newWidgetId = undefined;
+      this.newWidget = false;
 
-      const widgetElement = widgetDirective.element.nativeElement.firstElementChild;
-      const scrollY = +widgetElement.offsetTop + +widgetElement.offsetHeight;
-      this.windowService.windowRef.scroll(0, scrollY);
+      const widgetElement = widgetDirective.element.nativeElement.firstElementChild;      
+      this.windowService.windowRef.scroll(0, +widgetElement.offsetHeight);
     }
   }
 
   onMenuItemClicked(menuItem: IWidgetMenuItem) {
-    const idBuffer = this.getRandomIds(1);
-    this.newWidgetId = idBuffer[0];
-    menuItem.widgetParams.id = this.newWidgetId;
-    this.userWidgets.push(menuItem.widgetParams);
+    // const idBuffer = this.getRandomIds(1);
+    // this.newWidgetId = idBuffer[0];
+    this.newWidget = true;
+    const newWidgetParams = <IWidgetParams>{
+      position: menuItem.widgetParams.position,
+      widgetName: menuItem.widgetParams.widgetName,
+      size: menuItem.widgetParams.size,
+      dataParams: menuItem.widgetParams.dataParams
+    }
+    this.userWidgets.push(newWidgetParams);
   }
 
   addWidget(widgetContainerRef: ViewContainerRef, widgetParams: IWidgetParams): IWidgetComponent {
@@ -91,12 +96,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
       this.userWidgets.push(widgetParams);
     }
 
-    const index = this.userWidgets.length - 1;
     const widget = componentRef.instance as IWidgetComponent;
     widget.columnWidth = this.packerySizes[widgetParams.size];
 
     widget.destroy = () => {
-      this.userWidgets.slice(index, 1);
+      const index = this.userWidgets.indexOf(widgetParams);
+      this.userWidgets.splice(index, 1);
       this.packeryDirective.onItemRemove(widgetParams.element);
     }
     if (widgetParams.dataParams) {

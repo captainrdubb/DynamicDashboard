@@ -1,9 +1,9 @@
 @import '../../sass/variables.scss';
 
-@mixin menuContent($fontSize){
-    font-size: $fontSize;
+@mixin menuContent(){
+    display: block;    
+    text-align: center;    
     color: white;
-    padding: 20px 10px 10px 40px;
 }
 
 .dashboard-container{
@@ -12,26 +12,46 @@
         margin: 0;
     }
 
-    .side-bar{  
-        @include background(1);
-        border-right: 1px solid rgba(0,0,0,.5);      
+    .side-bar{        
         min-height: 100%;
         padding:0;
 
-        .menu-title{
-            margin-top:30px;
-            @include menuContent(1.5em);
-            border-bottom: 1px solid rgba(0,0,0,.1);      
-        }
+        .sliding-menu{                        
 
-        .menu-item{
-            @include menuContent(1.15em);
+            .fa{
+                font-size: 5rem;    
+            }
 
-            &:hover{
-                background-color: lighten($background-base, 15%);
-                cursor: pointer;
+            padding-top:80px;
+    
+            .menu-item{
+                font-size: 2rem;
+                margin-bottom:80px;
+                @include menuContent();
+                
+                .description{
+                    padding-bottom: 5px;
+                }
+
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+
+            .fa-pie-chart, .Chart{
+                color: #ea6e6e;
+            }
+            .fa-pencil, .Note{
+                color:#c7c763;
+            }
+            .fa-comments, .Message{
+                color: #b988b9;
+            }
+            .fa-object-group, .Graphic{
+                color: #8181fd;
             }
         }
+        
     }
 
     .dashboard{

@@ -34,9 +34,5 @@ export class NoteWidgetComponent implements AfterViewInit, IWidgetComponent {
     } else {
       this.draggabillyDirective.enable();
     }
-  }
-
-  onDestroyClick() {
-    this.destroy();
-  }
+  }  
 }

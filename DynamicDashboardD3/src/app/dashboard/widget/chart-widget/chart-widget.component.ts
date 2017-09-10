@@ -41,8 +41,4 @@ export class ChartWidgetComponent implements AfterViewInit, IWidgetComponent {
       this.selectedPath = event.target;
     });
   }
-
-  onDestroyClick() {
-    this.destroy();
-  }
 }

@@ -82,8 +82,4 @@ export class ChatWidgetComponent implements OnInit, AfterViewInit, IWidgetCompon
   onMessageLeave() {
     this.draggabillyDirective.enable();
   }
-
-  onDestroyClick() {
-    this.destroy();
-  }
 }
