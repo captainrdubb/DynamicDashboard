@@ -68,14 +68,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
       this.packeryDirective.onItemAppend(widgetParams.element);
       this.newWidget = false;
 
-      const widgetElement = widgetDirective.element.nativeElement.firstElementChild;      
-      this.windowService.windowRef.scroll(0, +widgetElement.offsetHeight);
+      const widgetElement = widgetDirective.element.nativeElement.firstElementChild;  
+      const bounds = widgetElement.getBoundingClientRect();   
+      this.windowService.windowRef.scrollTo(0, +bounds.top);
     }
   }
 
-  onMenuItemClicked(menuItem: IWidgetMenuItem) {
-    // const idBuffer = this.getRandomIds(1);
-    // this.newWidgetId = idBuffer[0];
+  onMenuItemClicked(menuItem: IWidgetMenuItem) { 
     this.newWidget = true;
     const newWidgetParams = <IWidgetParams>{
       position: menuItem.widgetParams.position,
@@ -145,22 +144,21 @@ export class DashboardComponent implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   private getUserWidgets(): IWidgetParams[] {
-    const ids = this.getRandomIds(4);
     return [
       {
-        id: ids[0], widgetName: WidgetModule.WIDGET_KEYS.NOTE,
+        widgetName: WidgetModule.WIDGET_KEYS.NOTE,
         dataParams: null, position: { x: 0, y: 0 }, element: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH
       },
       {
-        id: ids[1], widgetName: WidgetModule.WIDGET_KEYS.CHAT,
+        widgetName: WidgetModule.WIDGET_KEYS.CHAT,
         dataParams: null, position: { x: 0, y: 419 }, element: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH
       },
       {
-        id: ids[2], widgetName: WidgetModule.WIDGET_KEYS.CHART,
+        widgetName: WidgetModule.WIDGET_KEYS.CHART,
         dataParams: true, position: { x: 355, y: 0 }, element: null, size: PackeryDirective.PACKERY_SIZES.SINGLE_WIDTH
       },
       {
-        id: ids[3], widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC,
+        widgetName: WidgetModule.WIDGET_KEYS.GRAPHIC,
         dataParams: true, position: { x: 0, y: 419 }, element: null, size: PackeryDirective.PACKERY_SIZES.DOUBLE_WIDTH
       }
     ];

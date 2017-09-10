@@ -26,6 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.26",
     "@types/jquery": "^3.2.5",
     "bootstrap": "^4.0.0-alpha.6",
+    "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
     "d3-scale-chromatic": "^1.1.1",
     "draggabilly": "^2.1.1",
